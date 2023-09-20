@@ -23,10 +23,15 @@
             if (data.no_face_for >= 5) {
                 alert('어디갔어!');
             }
+            if (data.face_changed) {
+            alert('사람이 변했어!');
+            }
+            if (data.eye_deviation_count >= 1) {
+            alert('눈동자가 치우쳐졌습니다!');
+            }
         });
-    }
-
-    setInterval(checkFaceCount, 1000);  // Check every 1000 milliseconds (1 second)
+}
+setInterval(checkFaceCount, 1000);  // Check every 1000 milliseconds (1 second)
 </script>
 </body>
 </html>
