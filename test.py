@@ -5,7 +5,6 @@ import dlib
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
 import pygame
-import numpy as np
 
 app = Flask(__name__)
 
@@ -27,10 +26,6 @@ eye_deviation_count = 0
 eye_deviation_alert = False
 alert_playing = False
 eyes_closed_start_time = None
-head_rotation_alert = False
-warning_count = 0
-MOUTH_THRESHOLD = 20  # 입술 움직임에 대한 임의의 임계값
-warning_time = None
 
 executor = ThreadPoolExecutor(max_workers=4)  # 스레드 풀을 생성
 
@@ -98,28 +93,8 @@ def is_eye_closed(landmarks):
 
     return left_eye_ratio < 0.2 and right_eye_ratio < 0.2
 
-# 얼굴 추출
-def get_face_landmarks(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    faces = detector(gray)
-    if len(faces) == 0:
-        return None
-
-    landmarks = predictor(gray, faces[0])
-    return landmarks
-
-def get_distance(p1, p2):
-    return np.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2)
-
-# 입술 상단과 하단 거리 계산
-def get_mouth_movement(landmarks):
-    upper_lip = landmarks.part(51)
-    lower_lip = landmarks.part(57)
-    distance = get_distance(upper_lip, lower_lip)
-    return distance
-
 def eye_tracking():
-    global face_count, last_face_seen_time, alert_playing, eyes_closed_start_time, head_rotation_alert, warning_count
+    global face_count, last_face_seen_time, alert_playing, eyes_closed_start_time
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FPS, 15)  # FPS를 15로 설정
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)  # 너비를 640으로 설정
@@ -138,35 +113,9 @@ def eye_tracking():
             last_face_seen_time = datetime.now()
 
         for face in faces:
-            landmarks = predictor(gray, face)
 
-            nose_tip = landmarks.part(30)
-            mouth_left = landmarks.part(48)
-            mouth_right = landmarks.part(54)
-
-            ratio = get_distance(nose_tip, mouth_left) / get_distance(nose_tip, mouth_right)
-            mouth_movement = get_mouth_movement(landmarks)
-            
-            if mouth_movement < MOUTH_THRESHOLD:
-                if ratio > 1.2 or ratio < 0.8:
-                    if not head_rotation_alert:
-                        head_rotation_alert = True
-                        warning_time = time.time()
-                        warning_count += 1
-                    elif time.time() - warning_time >= 5:
-                        head_rotation_alert = False
-            else:
-                head_rotation_alert = False
-                warning_time = None
-
-            # 경고 메시지 표시
-            if head_rotation_alert:
-                cv2.putText(frame, "Warning: Head rotation detection", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-
-            # 경고 횟수 표시
-            cv2.putText(frame, f"Warning Count: {warning_count}", (frame.shape[1] - 160, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-            
-            if landmarks and is_eye_closed(landmarks):
+            landmarks = get_eye_landmarks(frame)
+            if landmarks and is_eye_closed(landmarks[0]):
                 if not alert_playing:
                     if eyes_closed_start_time is None:
                         eyes_closed_start_time = time.time()
@@ -200,9 +149,9 @@ def eye_tracking():
 
 @app.route('/face_info')
 def face_info_route():
-    global face_count, last_face_seen_time, face_changed, eye_deviation_alert, head_rotation_alert, warning_count
+    global face_count, last_face_seen_time, face_changed, eye_deviation_alert
     no_face_for = (datetime.now() - last_face_seen_time).seconds if last_face_seen_time else 0
-    return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, eye_deviation_alert=eye_deviation_alert, head_rotation_alert=head_rotation_alert, warning_count=warning_count) 
+    return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, eye_deviation_alert=eye_deviation_alert) 
 
 @app.route('/video_feed')
 def video_feed():

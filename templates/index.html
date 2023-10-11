@@ -19,21 +19,15 @@
             console.log(data);
             if (data.face_count > 1) {
                 alert('얼굴 많아!');
-            }
+            }5
             if (data.no_face_for >= 5) {
                 alert('어디갔어!');
             }
             if (data.face_changed) {
-                alert('사람이 변했어!');
+            alert('사람이 변했어!');
             }
             if (data.eye_deviation_alert) {
-                alert('눈동자가 많이 쏠렸습니다!');
-            }
-            if (data.head_rotation_alert) {
-                alert('고개 회전 감지!');
-                hasShownHeadRotationAlert = true;
-            } else if (!data.head_rotation_alert) {
-                hasShownHeadRotationAlert = false;
+            alert('눈동자가 많이 쏠렸습니다!');
             }
         });
 }
