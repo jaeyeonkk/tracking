@@ -14,10 +14,10 @@ def get_db_connection():
     session = Session()
 
     # 연결 테스트
-    try:
-        session.execute(text("SELECT 1"))
-        print("MySQL database connected")
-    except OperationalError:
-        print("MySQL database not connected")
+    # try:
+    #     session.execute(text("SELECT 1"))
+    #     print("MySQL database connected")
+    # except OperationalError:
+    #     print("MySQL database not connected")
 
     return session

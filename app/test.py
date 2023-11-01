@@ -4,10 +4,7 @@ import cv2
 import dlib
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
-<<<<<<< HEAD
-=======
 import pygame
->>>>>>> 848c69528b08ca48db5604036d177540aff82381
 
 app = Flask(__name__)
 

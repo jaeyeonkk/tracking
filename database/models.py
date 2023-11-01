@@ -1,8 +1,15 @@
-from sqlalchemy import Column, Integer, String, Text
+import datetime
+import pytz
+from sqlalchemy import Column, Integer, String, Text, Boolean, ForeignKey, TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
+
 
 Base = declarative_base()
 
+kst = pytz.timezone("Asia/Seoul")  # 한국 시간
+
+def current_time():
+    return datetime.datetime.now(kst)
 
 class QList(Base):
     __tablename__ = "q_list"
