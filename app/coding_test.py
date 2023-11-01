@@ -84,6 +84,13 @@ def test_view(q_id):
     return render_template("test.html", q_list=q_info)
 
 
+@coding_test.route("/accept_cam/<int:q_id>")
+def accept_cam(q_id):
+    # 여기에서 웹 캠 액세스 동의를 받은 후, 동의가 있을 경우 test 페이지로 리디렉션합니다.
+    return render_template("accept_cam.html")
+
+
+
 @coding_test.route("/compile", methods=["POST"])
 def compile():
     code = request.form.get("code")
