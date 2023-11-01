@@ -5,24 +5,23 @@
 </head>
 <body>
     <h1>웹 캠 액세스 동의</h1>
-
     <p><strong>목적:</strong> 이 웹 사이트는 웹 캠을 사용하여 [목적을 설명]을 위한 정보를 수집합니다. 예를 들어, 이 정보는 [목적에 대한 예]에 사용됩니다.</p>
-
     <p><strong>수집 정보:</strong> 웹 캠을 통해 수집되는 정보는 [어떤 정보가 수집되는지 설명]입니다.</p>
-
     <p><strong>보호:</strong> 수집된 정보는 [보호 방법 설명]으로 보호됩니다.</p>
-
     <p>웹 캠 액세스를 허용하려면 아래 동의 체크 박스를 선택하세요:</p>
-
     <label for="consentCheckbox">
         <input type="checkbox" id="consentCheckbox"> 웹 캠 액세스에 동의합니다.
     </label>
 
-    <button id="consentButton" disabled>동의</button>
-
+    <form method="post">  <!-- 폼을 POST 방식으로 변경 -->
+        <p>이름을 입력하세요:</p>
+        <input type="text" name="name" placeholder="이름을 입력하세요" required>  <!-- 이름 입력 필드 추가 및 required 속성 설정 -->
+        <button id="consentButton" disabled>동의</button>
+    </form>
     <script>
         const consentCheckbox = document.getElementById("consentCheckbox");
         const consentButton = document.getElementById("consentButton");
+        const q_id = {{ q_id }}; // Python 변수를 템플릿에서 가져오도록 수정
     
         // 체크 박스 선택 시 동의 버튼 활성화
         consentCheckbox.addEventListener("change", () => {
@@ -40,6 +39,5 @@
             }
         });
     </script>
-    
 </body>
 </html>

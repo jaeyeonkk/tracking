@@ -26,14 +26,9 @@ class QList(Base):
     j_answer_code = Column(Text, nullable=False)
     answer = Column(Text, nullable=False)
 
-class CodeSubmission(Base):
-    __tablename__ = "code_submissions"
 
-    submission_id = Column(Integer, primary_key=True, autoincrement=True)
-    q_id = Column(Integer, ForeignKey("q_list.q_id"), nullable=False)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    code_content = Column(Text, nullable=False)
-    submission_time = Column(TIMESTAMP, default=current_time, nullable=False)
-    is_correct = Column(Boolean)
-    compile_result = Column(Text)
-    language = Column(String(20), nullable=False)
+class Student(Base):
+    __tablename__ = "student"
+
+    student_id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50), nullable=False)
