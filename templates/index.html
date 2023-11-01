@@ -13,7 +13,7 @@
 
 <script>
     function checkFaceCount() {
-        fetch("http://172.17.40.222:5000/face_info")
+        fetch("http://172.17.66.190:5000/face_info")
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -26,8 +26,8 @@
             if (data.face_changed) {
             alert('사람이 변했어!');
             }
-            if (data.eye_deviation_alert) {
-            alert('눈동자가 많이 쏠렸습니다!');
+            if (data.head_rotation_alert) {
+            alert('고개가 회전되었습니다!');
             }
         });
 }

@@ -2,8 +2,9 @@ import time
 from flask import Flask, jsonify, render_template, Response
 import cv2
 import dlib
-from datetime import datetime, timedelta
+from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+import numpy as np
 import pygame
 
 app = Flask(__name__)
@@ -22,13 +23,13 @@ face_count = 0
 last_face_seen_time = None
 last_face_descriptor = None  
 face_changed = False
-eye_deviation_count = 0
-eye_deviation_alert = False
 alert_playing = False
 eyes_closed_start_time = None
+head_rotation_alert = False
 
 executor = ThreadPoolExecutor(max_workers=4)  # 스레드 풀을 생성
 
+# 얼굴 특성 계산 함수
 def compute_face_descriptor(frame, landmarks):
     global last_face_descriptor, face_changed
     current_face_descriptor = face_rec_model.compute_face_descriptor(frame, landmarks)
@@ -43,37 +44,6 @@ def compute_face_descriptor(frame, landmarks):
     elif current_face_descriptor:
         last_face_descriptor = current_face_descriptor
         face_changed = False
-
-def calculate_eye_deviation(landmarks):
-    left_eye_points = landmarks.parts()[36:42]
-    right_eye_points = landmarks.parts()[42:48]
-
-    left_eye_center_x = sum([pt.x for pt in left_eye_points]) // 6
-    left_eye_center_y = sum([pt.y for pt in left_eye_points]) // 6
-    right_eye_center_x = sum([pt.x for pt in right_eye_points]) // 6
-    right_eye_center_y = sum([pt.y for pt in right_eye_points]) // 6
-
-    left_eye_width = left_eye_points[3].x - left_eye_points[0].x
-    right_eye_width = right_eye_points[3].x - right_eye_points[0].x
-    
-    left_pupil_x = (left_eye_points[0].x + left_eye_points[3].x) // 2
-    right_pupil_x = (right_eye_points[0].x + right_eye_points[3].x) // 2
-
-    left_deviation = (left_eye_center_x - left_pupil_x) / left_eye_width
-    right_deviation = (right_eye_center_x - right_pupil_x) / right_eye_width
-
-    return left_deviation, right_deviation
-
-# 눈동자가 중앙에서 얼마나 멀어졌는지 확인하는 함수
-def check_eye_deviation(landmarks):
-    global eye_deviation_count, eye_deviation_alert
-    left_deviation, right_deviation = calculate_eye_deviation(landmarks)
-
-    deviation_threshold = 0.05 # 눈동자 위치가 중앙에서 얼마나 멀리 떨어져 있는지 값 조절
-    if abs(left_deviation) > deviation_threshold or abs(right_deviation) > deviation_threshold:
-        eye_deviation_alert = True
-    else:
-        eye_deviation_alert = False
 
 # 눈 좌표 추출 함수
 def get_eye_landmarks(frame):
@@ -93,13 +63,41 @@ def is_eye_closed(landmarks):
 
     return left_eye_ratio < 0.2 and right_eye_ratio < 0.2
 
+# 두 점 사이의 거리를 계산하는 함수
+def get_distance(p1, p2):
+    return np.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2)
+
+# 입술 움직임을 계산하는 함수
+def get_mouth_movement(landmarks):
+    upper_lip = landmarks.part(51)
+    lower_lip = landmarks.part(57)
+    return get_distance(upper_lip, lower_lip)
+
+# 고개 회전 감지 함수
+def detect_head_rotation(landmarks):
+    global head_rotation_alert
+    nose_tip = landmarks.part(30)
+    mouth_left = landmarks.part(48)
+    mouth_right = landmarks.part(54)
+    ratio = get_distance(nose_tip, mouth_left) / get_distance(nose_tip, mouth_right)
+    mouth_movement = get_mouth_movement(landmarks)
+
+    if mouth_movement < 20:
+        if ratio > 1.2 or ratio < 0.2:
+            head_rotation_alert = True
+        else:
+            head_rotation_alert = False
+    else:
+        head_rotation_alert = False
+
 def eye_tracking():
-    global face_count, last_face_seen_time, alert_playing, eyes_closed_start_time
+    global face_count, last_face_seen_time, alert_playing, eyes_closed_start_time, head_rotation_alert
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FPS, 15)  # FPS를 15로 설정
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)  # 너비를 640으로 설정
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)  # 높이를 480으로 설정
     frame_count = 0 
+
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -113,9 +111,10 @@ def eye_tracking():
             last_face_seen_time = datetime.now()
 
         for face in faces:
+            landmarks = predictor(gray, face)
+            detect_head_rotation(landmarks)
 
-            landmarks = get_eye_landmarks(frame)
-            if landmarks and is_eye_closed(landmarks[0]):
+            if is_eye_closed(landmarks):
                 if not alert_playing:
                     if eyes_closed_start_time is None:
                         eyes_closed_start_time = time.time()
@@ -128,30 +127,18 @@ def eye_tracking():
                     alert_playing = False
                 eyes_closed_start_time = None
 
-                # 얼굴 랜드마크를 탐지합
-                landmarks = predictor(gray, face)
-                # 눈동자 편향 확인
-                check_eye_deviation(landmarks)
-                    
-
-            # 10 프레임마다 얼굴 특성 계산을 수행
-            if frame_count % 10 == 0:
-                executor.submit(compute_face_descriptor, frame, landmarks)
-
-        frame_count += 1  # 프레임 카운터를 증가
-        
-        # JPEG 형식으로 인코딩하여 웹페이지에 전송
-        _, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
+        frame_count += 1
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + cv2.imencode('.jpg', frame)[1].tobytes() + b'\r\n')
+
+    cap.release()
         
 
 @app.route('/face_info')
 def face_info_route():
-    global face_count, last_face_seen_time, face_changed, eye_deviation_alert
+    global face_count, last_face_seen_time, face_changed, head_rotation_alert
     no_face_for = (datetime.now() - last_face_seen_time).seconds if last_face_seen_time else 0
-    return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, eye_deviation_alert=eye_deviation_alert) 
+    return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, head_rotation_alert=head_rotation_alert) 
 
 @app.route('/video_feed')
 def video_feed():
