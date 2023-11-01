@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{ q_list.q_name }}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+  <section class="coding">
+    <h1>[ {{ q_list.q_name }} ]</h1>
+    <div class="wrapper">
+      <div class="content-box">
+        <div id="problem">
+          <p class="ttext">문제</p>
+          <p class="ttext2">{{ q_list.q_content | safe }}</p>
+        </div>
+        <div class="output-box">
+          <p class="ttext">출력 예시</p>
+          <p class="ttext2">{{ q_list.ex_print | safe }}</p>
+        </div>
+        <form action="/compile" method="POST">
+          <label for="language">언어 선택:</label>
+          <select name="language">
+            <option value="c">C</option>
+            <option value="c++">C++</option>
+            <option value="java">Java</option>
+            <option value="python">Python</option>
+          </select>
+          <textarea name="code" style="margin-top: 20px;" placeholder="정답을 입력해 주세요" rows="10" cols="75"></textarea>
+          <div class="button-group">
+            <input type="submit" id="compile" value="실행">
+            <button type="button" id="submit">제출</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <script>
+    const header = document.querySelector("header");
+    window.addEventListener("scroll", function() {
+      header.classList.toggle("sticky", window.scrollY > 80);
+    });
+
+    $(document).ready(function() {
+      var isCodeExecuted = false; // 코드가 실행되었는지 확인하는 flag
+
+      function isCodePresent() {
+        return $("textarea[name='code']").val().trim() !== "";
+      }
+
+      $("form").submit(function(e) {
+        e.preventDefault();
+
+        // 코드가 작성되었는지 확인
+        if (!isCodePresent()) {
+          alert("코드를 작성해주세요.");
+          return;
+        }
+
+        $.ajax({
+          type: "POST",
+          url: "/compile",
+          data: $(this).serialize(),
+          success: function(result) {
+            $("#result").html("<pre>" + result + "</pre>");
+            isCodeExecuted = true; // 코드가 실행된 후 flag를 true로 설정
+          }
+        });
+      });
+
+      $("#submit").click(function() {
+        // 코드가 작성되었는지 확인
+        if (!isCodePresent()) {
+          alert("코드를 작성해주세요.");
+          return;
+        }
+
+        $.ajax({
+          type: "POST",
+          url: "/submit",
+          data: {
+            code: $("textarea[name='code']").val(),
+            language: $("select[name='language']").val() // 언어 선택 값을 추가
+          },
+          success: function(result) {
+            $("#grade-box").html("<pre>" + result + "</pre>");
+            $("#grade-box").removeClass("hidden"); // 박스를 보이도록 클래스 제거
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

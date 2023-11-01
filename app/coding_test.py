@@ -69,69 +69,69 @@ def test_list():
     )
 
 
-# @coding_test.route("/test/<int:q_id>")
-# def test_view(q_id):
-#     conn = get_db_connection()
+@coding_test.route("/test/<int:q_id>")
+def test_view(q_id):
+    conn = get_db_connection()
 
-#     q_info = conn.query(QList).filter(QList.q_id == q_id).first()
+    q_info = conn.query(QList).filter(QList.q_id == q_id).first()
 
-#     q_info.ex_print = q_info.ex_print.replace("\n", "<br>")
+    q_info.ex_print = q_info.ex_print.replace("\n", "<br>")
 
-#     session["q_id"] = q_id
+    session["q_id"] = q_id
 
-#     conn.close()
+    conn.close()
 
-#     return render_template("test.html", q_list=q_info)
-
-
-# @coding_test.route("/compile", methods=["POST"])
-# def compile():
-#     code = request.form.get("code")
-#     language = request.form.get("language")
-
-#     session["language"] = language  # 언어 정보를 세션에 저장
-
-#     if language == "python":
-#         output_str = python_run_code(code)
-#     elif language == "c":
-#         output_str = c_compile_code(code)
-#     elif language == "c++":
-#         output_str = cpp_compile_code(code)
-#     elif language == "java":
-#         output_str = java_compile_run_code(code)
-
-#     return output_str
+    return render_template("test.html", q_list=q_info)
 
 
-# @coding_test.route("/submit", methods=["POST"])
-# def submit():
-#     conn = get_db_connection()
+@coding_test.route("/compile", methods=["POST"])
+def compile():
+    code = request.form.get("code")
+    language = request.form.get("language")
 
-#     code = request.form.get("code")
-#     language = request.form.get("language")
+    session["language"] = language  # 언어 정보를 세션에 저장
 
-#     session["language"] = language
+    if language == "python":
+        output_str = python_run_code(code)
+    elif language == "c":
+        output_str = c_compile_code(code)
+    elif language == "c++":
+        output_str = cpp_compile_code(code)
+    elif language == "java":
+        output_str = java_compile_run_code(code)
 
-#     if language == "python":
-#         output_str = python_run_code(code)
-#     elif language == "c":
-#         output_str = c_compile_code(code)
-#     elif language == "c++":
-#         output_str = cpp_compile_code(code)
-#     elif language == "java":
-#         output_str = java_compile_run_code(code)
+    return output_str
 
-#     q_info = conn.query(QList).filter(QList.q_id == session["q_id"]).first()
-#     expected_output = q_info.answer
 
-#     result = grade_code(output_str, expected_output)
+@coding_test.route("/submit", methods=["POST"])
+def submit():
+    conn = get_db_connection()
 
-#     # 채점 결과를 세션에 저장
-#     if result == "정답입니다!":
-#         session["is_correct"] = True
-#     else:
-#         session["is_correct"] = False
+    code = request.form.get("code")
+    language = request.form.get("language")
 
-#     conn.close()
+    session["language"] = language
 
-#     return result  # 채점 결과를 반환
+    if language == "python":
+        output_str = python_run_code(code)
+    elif language == "c":
+        output_str = c_compile_code(code)
+    elif language == "c++":
+        output_str = cpp_compile_code(code)
+    elif language == "java":
+        output_str = java_compile_run_code(code)
+
+    q_info = conn.query(QList).filter(QList.q_id == session["q_id"]).first()
+    expected_output = q_info.answer
+
+    result = grade_code(output_str, expected_output)
+
+    # 채점 결과를 세션에 저장
+    if result == "정답입니다!":
+        session["is_correct"] = True
+    else:
+        session["is_correct"] = False
+
+    conn.close()
+
+    return result  # 채점 결과를 반환
