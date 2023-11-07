@@ -16,32 +16,36 @@
     <form method="post">
         <p>이름을 입력하세요:</p>
         <input type="text" name="name" placeholder="이름을 입력하세요" required>
-        <input type="hidden" name="q_id" value="{{ q_id }}"> <!-- 문제 번호 추가 -->
-        <!-- <input type="hidden" name="test_start_time" id="test_start_time" value=""> 시작 시간 추가 -->
+        <input type="hidden" name="q_id" value="{{ q_id }}">
         <button id="consentButton" disabled>동의</button>
     </form>
-
     <script>
         const consentCheckbox = document.getElementById("consentCheckbox");
         const consentButton = document.getElementById("consentButton");
         const q_id = {{ q_id }};
-
+    
         consentCheckbox.addEventListener("change", () => {
             consentButton.disabled = !consentCheckbox.checked;
         });
-
+    
         consentButton.addEventListener("click", async () => {
+            const nameInput = document.querySelector("input[name='name']");
+            const name = nameInput.value;
+    
+            if (name.trim() === "") {
+                // 이름이 입력되지 않은 경우 팝업 표시
+                alert("이름을 입력해주세요.");
+                return;
+            }
+    
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-
-                // // 웹 캠 액세스가 허용된 경우, 시작 시간을 가져와서 테스트 페이지로 리디렉션
-                // const testStartTimeInput = document.getElementById("test_start_time");
-                // testStartTimeInput.value = new Date().toISOString();
                 window.location.href = `/test/${q_id}`;
             } catch (error) {
                 console.error("웹 캠 액세스 거부 또는 오류:", error);
             }
         });
     </script>
+    
 </body>
 </html>

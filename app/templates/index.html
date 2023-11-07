@@ -13,7 +13,7 @@
 
 <script>
     function checkFaceCount() {
-        fetch("http://172.16.132.147:5000/face_info")
+        fetch("http://127.0.0.1:5000/face_info")
         .then(response => response.json())
         .then(data => {
             console.log(data);
