@@ -1,6 +1,6 @@
 import html
 
-from flask import Blueprint, render_template, session, request, jsonify
+from flask import Blueprint, render_template, session, request, redirect, url_for
 from sqlalchemy import func
 
 from app.compile import (
@@ -11,7 +11,7 @@ from app.compile import (
     grade_code,
 )
 from database.database import get_db_connection
-from database.models import QList, CodeSubmission
+from database.models import QList, Student
 
 from sqlalchemy import and_, or_
 
@@ -69,8 +69,12 @@ def test_list():
     )
 
 
+# 웹 캠 액세스 동의 상태를 저장하는 딕셔너리
+consent_status = {}
+
 @coding_test.route("/test/<int:q_id>")
 def test_view(q_id):
+
     conn = get_db_connection()
 
     q_info = conn.query(QList).filter(QList.q_id == q_id).first()
@@ -82,6 +86,30 @@ def test_view(q_id):
     conn.close()
 
     return render_template("test.html", q_list=q_info)
+
+
+@coding_test.route("/accept_cam/<int:q_id>", methods=['GET', 'POST'])
+def accept_cam(q_id):
+    session["q_id"] = q_id  # 세션에 q_id 저장
+
+    if request.method == "POST":
+        name = request.form.get("name")
+        if name:
+            db_session = get_db_connection()
+
+            # 이름을 데이터베이스에 저장
+            new_student = Student(name=name)
+
+            db_session.add(new_student)
+            db_session.commit()
+            db_session.close()
+
+            session["q_id"] = q_id
+            return redirect(url_for("coding_test.test_view", q_id=q_id))
+
+    # 여기에서 웹 캠 액세스 동의를 받은 후, 동의가 있을 경우 test 페이지로 리디렉션합니다.
+    return render_template("accept_cam.html", q_id=q_id)
+
 
 
 @coding_test.route("/compile", methods=["POST"])

@@ -19,7 +19,8 @@
             <tr class="problem-row" data-level="{{ i[1] }}" data-language="{{ i[3] }}">
               <td>{{ i[0] }}</td> <!-- 문제 번호 -->
               <td>
-                <a href="{{ url_for('coding_test.test_view', q_id=i[0]) }}">{{ i[2] }}</a>
+                <!-- <a href="{{ url_for('coding_test.test_view', q_id=i[0]) }}">{{ i[2] }}</a> -->
+                <a href="{{ url_for('coding_test.accept_cam', q_id=i[0]) }}">{{ i[2] }}</a>
                 <p>{{ i[2] }}</p>
               </td>
             </tr>
