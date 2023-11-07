@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test List</title>
+  </head>
+  <body>
+    <!-- board list 부분 -->
+    <div id="board-list">
+      <div class="container">
+        <table class="board-table">
+          <thead>
+            <tr>
+              <th scope="col" class="th-num">번호</th>
+              <th scope="col" class="th-title">제목</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in q_list %}
+            <tr class="problem-row" data-level="{{ i[1] }}" data-language="{{ i[3] }}">
+              <td>{{ i[0] }}</td> <!-- 문제 번호 -->
+              <td>
+                <a href="{{ url_for('coding_test.test_view', q_id=i[0]) }}">{{ i[2] }}</a>
+                <p>{{ i[2] }}</p>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pagination">
+      {% if current_page > 10 %}
+        <a href="{{ url_for('coding_test.test_list', page=current_page-10) }}">&lt;&lt;</a>
+      {% endif %}
+
+      {% for i in range(current_page - (current_page-1)%10, current_page - (current_page-1)%10 + 10) %}
+        {% if i <= total_pages %}
+          {% if i == current_page %}
+            <span>{{ i }}</span>
+          {% else %}
+            <a href="{{ url_for('coding_test.test_list', page=i) }}">{{ i }}</a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+
+      {% if current_page // 10 < total_pages // 10 %}
+        <a href="{{ url_for('coding_test.test_list', page=current_page+10) }}">&gt;&gt;</a>
+      {% endif %}
+    </div>
+  </body>
+</html>
