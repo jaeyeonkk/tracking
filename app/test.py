@@ -25,8 +25,6 @@ face_count = 0
 last_face_seen_time = None
 last_face_descriptor = None
 face_changed = False
-eye_deviation_count = 0
-eye_deviation_alert = False
 alert_playing = False
 eyes_closed_start_time = None
 
@@ -47,37 +45,6 @@ def compute_face_descriptor(frame, landmarks):
     elif current_face_descriptor:
         last_face_descriptor = current_face_descriptor
         face_changed = False
-
-def calculate_eye_deviation(landmarks):
-    left_eye_points = landmarks.parts()[36:42]
-    right_eye_points = landmarks.parts()[42:48]
-
-    left_eye_center_x = sum([pt.x for pt in left_eye_points]) // 6
-    left_eye_center_y = sum([pt.y for pt in left_eye_points]) // 6
-    right_eye_center_x = sum([pt.x for pt in right_eye_points]) // 6
-    right_eye_center_y = sum([pt.y for pt in right_eye_points]) // 6
-
-    left_eye_width = left_eye_points[3].x - left_eye_points[0].x
-    right_eye_width = right_eye_points[3].x - right_eye_points[0].x
-    
-    left_pupil_x = (left_eye_points[0].x + left_eye_points[3].x) // 2
-    right_pupil_x = (right_eye_points[0].x + right_eye_points[3].x) // 2
-
-    left_deviation = (left_eye_center_x - left_pupil_x) / left_eye_width
-    right_deviation = (right_eye_center_x - right_pupil_x) / right_eye_width
-
-    return left_deviation, right_deviation
-
-# 눈동자가 중앙에서 얼마나 멀어졌는지 확인하는 함수
-def check_eye_deviation(landmarks):
-    global eye_deviation_count, eye_deviation_alert
-    left_deviation, right_deviation = calculate_eye_deviation(landmarks)
-
-    deviation_threshold = 0.05 # 눈동자 위치가 중앙에서 얼마나 멀리 떨어져 있는지 값 조절
-    if abs(left_deviation) > deviation_threshold or abs(right_deviation) > deviation_threshold:
-        eye_deviation_alert = True
-    else:
-        eye_deviation_alert = False
 
 # 눈 좌표 추출 함수
 def get_eye_landmarks(frame):
@@ -134,10 +101,7 @@ def eye_tracking():
 
                 # 얼굴 랜드마크를 탐지합
                 landmarks = predictor(gray, face)
-                # 눈동자 편향 확인
-                check_eye_deviation(landmarks)
                     
-
             # 10 프레임마다 얼굴 특성 계산을 수행
             if frame_count % 10 == 0:
                 executor.submit(compute_face_descriptor, frame, landmarks)
@@ -153,9 +117,9 @@ def eye_tracking():
 
 @app.route('/face_info')
 def face_info_route():
-    global face_count, last_face_seen_time, face_changed, eye_deviation_alert
+    global face_count, last_face_seen_time, face_changed
     no_face_for = (datetime.now() - last_face_seen_time).seconds if last_face_seen_time else 0
-    return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, eye_deviation_alert=eye_deviation_alert) 
+    return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed) 
 
 @app.route("/video_feed")
 def video_feed():
