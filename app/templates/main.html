@@ -4,7 +4,7 @@
     <title>face pse main page</title>
 
     <!--- cutom css line -->
-    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 
     <!--- box icons link -->
     <link rel="stylesheet"
@@ -18,8 +18,6 @@
 
 </head>
 <body>
-
-
         <!--- hero section -->
         <section class="home" id="home">
             <div class="hero-text">
@@ -30,10 +28,10 @@
                     He lucky, lucky, yeah (ooh)<br>
                     He lucky, lucky, yeah (ye-yeah)
                 </h4>
-                    <a href="../templates/test_list.html" class="btn">GET STARTED</a>
+                    <a href="/test_list" class="btn">GET STARTED</a>
                     <div class="home-img">
-                        <img alt="#" src="../images/mainn2.jpg">
-                      </div>
+                        <img alt="#" src="{{ url_for('static', filename='images/mainn2.jpg') }}">
+                    </div>
               </div>
 
         </section>

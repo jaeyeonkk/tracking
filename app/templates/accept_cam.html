@@ -13,26 +13,30 @@
         <input type="checkbox" id="consentCheckbox"> 웹 캠 액세스에 동의합니다.
     </label>
 
-    <form method="post">  <!-- 폼을 POST 방식으로 변경 -->
+    <form method="post">
         <p>이름을 입력하세요:</p>
-        <input type="text" name="name" placeholder="이름을 입력하세요" required>  <!-- 이름 입력 필드 추가 및 required 속성 설정 -->
+        <input type="text" name="name" placeholder="이름을 입력하세요" required>
+        <input type="hidden" name="q_id" value="{{ q_id }}"> <!-- 문제 번호 추가 -->
+        <!-- <input type="hidden" name="test_start_time" id="test_start_time" value=""> 시작 시간 추가 -->
         <button id="consentButton" disabled>동의</button>
     </form>
+
     <script>
         const consentCheckbox = document.getElementById("consentCheckbox");
         const consentButton = document.getElementById("consentButton");
-        const q_id = {{ q_id }}; // Python 변수를 템플릿에서 가져오도록 수정
-    
-        // 체크 박스 선택 시 동의 버튼 활성화
+        const q_id = {{ q_id }};
+
         consentCheckbox.addEventListener("change", () => {
             consentButton.disabled = !consentCheckbox.checked;
         });
-    
-        // 동의 버튼 클릭 시 웹 캠 액세스 요청 및 테스트 페이지로 이동
+
         consentButton.addEventListener("click", async () => {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                // 웹 캠 액세스가 허용된 경우, 테스트 페이지로 리디렉션
+
+                // // 웹 캠 액세스가 허용된 경우, 시작 시간을 가져와서 테스트 페이지로 리디렉션
+                // const testStartTimeInput = document.getElementById("test_start_time");
+                // testStartTimeInput.value = new Date().toISOString();
                 window.location.href = `/test/${q_id}`;
             } catch (error) {
                 console.error("웹 캠 액세스 거부 또는 오류:", error);

@@ -37,6 +37,3 @@ class Student(Base):
     test_start_time = Column(TIMESTAMP)
     test_duration = Column(Integer)  # 테스트 소요 시간을 저장할 칼럼
 
-    # Student와 QList 간의 관계 설정
-    q_list = relationship("QList", back_populates="students")
-
