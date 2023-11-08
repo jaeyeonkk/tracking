@@ -1,23 +1,9 @@
-import datetime
-import os
-from flask import Flask, jsonify, render_template, redirect, url_for
+
+from flask import render_template, redirect, url_for, jsonify, Response
 from flask_login import login_required, current_user
+from datetime import datetime
+from app import app
 
-from app.auth import auth, init_login_manager
-from app.coding_test import coding_test
-from app.config import Config
-from app.csrf_protection import init_csrf
-
-
-app = Flask(__name__, static_folder="app/static")
-app.template_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "app", "templates")
-app.secret_key = Config.SECRET_KEY  # session 연결을 위한 키
-
-app.register_blueprint(auth)
-app.register_blueprint(coding_test)
-
-init_login_manager(app)
-init_csrf(app)
 
 @app.route("/")
 def not_logged_home():
@@ -31,9 +17,27 @@ def not_logged_home():
 def home():
     return render_template("main2.html")
 
+
 @app.route("/admin")
 def admin():
     return render_template("admin.html")
+
+
+@app.route('/tracking')
+def index():
+    return render_template('index.html')
+
+
+# @app.route('/face_info')
+# def face_info_route():
+#     global face_count, last_face_seen_time, face_changed, head_rotation_alert
+#     no_face_for = (datetime.now() - last_face_seen_time).seconds if last_face_seen_time else 0
+#     return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, head_rotation_alert=head_rotation_alert)
+
+
+# @app.route('/video_feed')
+# def video_feed():
+#     return Response(eye_tracking(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == "__main__":

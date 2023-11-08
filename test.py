@@ -149,9 +149,11 @@ def face_info_route():
     no_face_for = (datetime.now() - last_face_seen_time).seconds if last_face_seen_time else 0
     return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, head_rotation_alert=head_rotation_alert)
 
+
 @app.route('/video_feed')
 def video_feed():
     return Response(eye_tracking(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 @app.route('/')
 def index():
