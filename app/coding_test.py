@@ -1,6 +1,10 @@
 import html
+import pytz
+
+from datetime import datetime
 
 from flask import Blueprint, render_template, session, request, redirect, url_for
+from flask_login import login_required, current_user
 from sqlalchemy import func
 
 from app.compile import (
@@ -19,7 +23,7 @@ coding_test = Blueprint("coding_test", __name__)
 
 PER_PAGE = 10
 
-
+@login_required
 @coding_test.route("/test_list")
 def test_list():
     page = request.args.get("page", 1, type=int)
@@ -69,20 +73,23 @@ def test_list():
     )
 
 
-# 웹 캠 액세스 동의 상태를 저장하는 딕셔너리
-consent_status = {}
-
 @coding_test.route("/test/<int:q_id>")
 def test_view(q_id):
 
     conn = get_db_connection()
-
     q_info = conn.query(QList).filter(QList.q_id == q_id).first()
 
+    # # 현재 시간을 기록
+    # seoul_timezone = pytz.timezone("Asia/Seoul")  # 한국 시간
+    # test_start_time = datetime.now(seoul_timezone)
+
+    # # 데이터베이스에 테스트 시작 시간 저장
+    # student = Student(q_id=q_id, test_start_time=test_start_time)
+    # conn.add(student)
+    # conn.commit()
+
     q_info.ex_print = q_info.ex_print.replace("\n", "<br>")
-
     session["q_id"] = q_id
-
     conn.close()
 
     return render_template("test.html", q_list=q_info)
@@ -90,16 +97,21 @@ def test_view(q_id):
 
 @coding_test.route("/accept_cam/<int:q_id>", methods=['GET', 'POST'])
 def accept_cam(q_id):
-    session["q_id"] = q_id  # 세션에 q_id 저장
+    session["q_id"] = q_id
 
     if request.method == "POST":
         name = request.form.get("name")
+        q_id = request.form.get("q_id")  # 추가된 문제 번호
+        test_start_time = request.form.get("test_start_time")  # 추가된 시작 시간
+
         if name:
             db_session = get_db_connection()
 
-            # 이름을 데이터베이스에 저장
-            new_student = Student(name=name)
+            # 현재 시간을 기록
+            seoul_timezone = pytz.timezone("Asia/Seoul")  # 한국 시간
+            test_start_time = datetime.now(seoul_timezone)
 
+            new_student = Student(name=name, q_id=q_id, test_start_time=test_start_time)  # 이름, 문제 번호, 시작 시간 저장
             db_session.add(new_student)
             db_session.commit()
             db_session.close()
@@ -107,7 +119,6 @@ def accept_cam(q_id):
             session["q_id"] = q_id
             return redirect(url_for("coding_test.test_view", q_id=q_id))
 
-    # 여기에서 웹 캠 액세스 동의를 받은 후, 동의가 있을 경우 test 페이지로 리디렉션합니다.
     return render_template("accept_cam.html", q_id=q_id)
 
 

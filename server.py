@@ -15,9 +15,9 @@ def home():
     return render_template("main.html")
 
 
-#@app.route("/accept_cam")
-#def accept_cam():
-#    return render_template("accept_cam.html")
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
 
 
 if __name__ == "__main__":

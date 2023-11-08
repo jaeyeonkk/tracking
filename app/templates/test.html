@@ -1,47 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{{ q_list.q_name }}</title>
   <meta charset="UTF-8">
+  <title>{{ q_list.q_name }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/codingtest.css') }}">
 </head>
 <body>
   <section class="coding">
     <h1>[ {{ q_list.q_name }} ]</h1>
     <div class="wrapper">
-      <div class="content-box">
-        <div id="problem">
-          <p class="ttext">문제</p>
-          <p class="ttext2">{{ q_list.q_content | safe }}</p>
-        </div>
-        <div class="output-box">
-          <p class="ttext">출력 예시</p>
-          <p class="ttext2">{{ q_list.ex_print | safe }}</p>
-        </div>
-        <form action="/compile" method="POST">
-          <label for="language">언어 선택:</label>
-          <select name="language">
-            <option value="c">C</option>
-            <option value="c++">C++</option>
-            <option value="java">Java</option>
-            <option value="python">Python</option>
-          </select>
-          <textarea name="code" style="margin-top: 20px;" placeholder="정답을 입력해 주세요" rows="10" cols="75"></textarea>
-          <div class="button-group">
-            <input type="submit" id="compile" value="실행">
-            <button type="button" id="submit">제출</button>
-          </div>
-        </form>
+      <div id="problem">
+        <p class="ttext">문제</p>
+        <p class="ttext2">{{ q_list.q_content | safe }}</p>
       </div>
+      <div class="output-box">
+        <p class="ttext">출력 예시</p>
+        <p class="ttext2">{{ q_list.ex_print | safe }}</p>
+      </div>
+      <form action="/compile" method="POST">
+        <label for="language">언어 선택:</label>
+        <select name="language">
+          <option value="c">C</option>
+          <option value="c++">C++</option>
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+        </select>
+        <textarea name="code" style="margin-top: 20px;" placeholder="정답을 입력해 주세요" rows="10" cols="75"></textarea>
+        <div class="button-group">
+          <input type="submit" id="compile" value="실행">
+          <button type="button" id="submit">제출/정보 저장</button>
+          <button type="button" id="save_code">코드 저장</button>
+        </div>
+      </form>
     </div>
+    <div id="result"></div>
+    <div id="grade-box" class="hidden"></div>
+    <div id="answer-box" class="hidden"></div>
+    <div id="feedback-box" class="hidden"></div>
   </section>
+
   <script>
     const header = document.querySelector("header");
 
     window.addEventListener("scroll", function() {
       header.classList.toggle("sticky", window.scrollY > 80);
-      
     });
 
     $(document).ready(function() {
@@ -88,6 +92,90 @@
           success: function(result) {
             $("#grade-box").html("<pre>" + result + "</pre>");
             $("#grade-box").removeClass("hidden"); // 박스를 보이도록 클래스 제거
+          }
+        });
+      });
+
+      // 정답 버튼 클릭 시 'answer-box' 박스가 나타나도록 설정
+      $("#answer").click(function() {
+        // 코드가 작성되었는지 확인
+        if (!isCodePresent()) {
+          alert("코드를 작성해주세요.");
+          return;
+        }
+
+        // 코드가 실행되었는지 확인
+        if (!isCodeExecuted) {
+          alert("코드를 실행해주세요.");
+          return;
+        }
+
+        $.ajax({
+          type: "GET",
+          url: "/answer",
+          success: function(result) {
+            $("#answer-box").html("<pre>" + result + "</pre>");
+            $("#answer-box").removeClass("hidden"); // 박스를 보이도록 클래스 제거
+          }
+        });
+      });
+
+      // 피드백 버튼 클릭 시 'feedback-box' 박스가 나타나도록 설정
+      $("#feedback").click(function() {
+        // 코드가 작성되었는지 확인
+        if (!isCodePresent()) {
+          alert("코드를 작성해주세요.");
+          return;
+        }
+
+        // 코드가 작성되었는지 확인
+        if (!isCodePresent()) {
+          alert("코드를 작성해주세요.");
+          return;
+        }
+
+        $.ajax({
+          type: "GET",
+          url: "/feedback",
+          success: function(result) {
+            $("#feedback-box").html("<pre>" + result + "</pre>");
+            $("#feedback-box").removeClass("hidden"); // 박스를 보이도록 클래스 제거
+          }
+        });
+      });
+
+      $("#save_code").click(function() {
+        var codeContent = $("textarea[name='code']").val().trim();
+
+        // 코드가 작성되었는지 확인
+        if (codeContent === "") {
+          alert("코드를 작성해주세요.");
+          return;
+        }
+
+        // 코드가 실행되었는지 확인
+        if (!isCodeExecuted) {
+          alert("코드를 실행해주세요.");
+          return;
+        }
+
+        // 결과를 가져오기
+        var compileResult = $("#result pre").text();
+
+        $.ajax({
+          type: "POST",
+          url: "/save_code",
+          data: {
+            q_id: '{{ q_list.q_id }}',
+            code_content: codeContent,
+            language: $("select[name='language']").val(),
+            compile_result: compileResult
+          },
+          success: function(result) {
+            alert("코드가 저장되었습니다.");
+          },
+          error: function(error) {
+            alert("코드 저장 중 문제가 발생했습니다.");
           }
         });
       });
