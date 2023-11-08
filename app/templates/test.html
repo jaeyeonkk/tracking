@@ -41,6 +41,12 @@
     <div id="feedback-box" class="hidden"></div>
   </section>
 
+  <div id="webcam-container" class="ui-widget-content">
+    <div id="webcam-view">
+      <video id="webcam" autoplay></video>
+    </div>
+  </div>
+
   <script>
     const header = document.querySelector("header");
 
@@ -179,7 +185,22 @@
           }
         });
       });
+            // 웹캠 뷰를 작은 창으로 이동 가능하도록 만듭니다.
+            $("#webcam-container").draggable();
+    });
+
+    // 웹캠 스트림 가져오기
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        var webcam = document.getElementById("webcam");
+        if (webcam) {
+          webcam.srcObject = stream;
+        }
+      })
+      .catch(function(error) {
+        console.error("웹캠 스트림을 가져오는 중 오류 발생: " + error);
     });
   </script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
 </html>
