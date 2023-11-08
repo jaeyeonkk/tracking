@@ -12,8 +12,8 @@
 </div>
 
 <script>
-    function checkFaceCount() {
-        fetch("http://192.168.219.121:5000/face_info")
+function checkFaceCount() {
+        fetch("http://127.0.0.1:5000/face_info")
         .then(response => response.json())
         .then(data => {
             console.log(data);

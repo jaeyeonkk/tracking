@@ -71,14 +71,19 @@ class FaceUser(Base):
         return str(self.id)
 
 
-# class CodeSubmission(Base):
-#     __tablename__ = "code_submissions"
+class FaceSubmissions(Base):
+    __tablename__ = 'face_submissions'
 
-#     submission_id = Column(Integer, primary_key=True, autoincrement=True)
-#     q_id = Column(Integer, ForeignKey("q_list.q_id"), nullable=False)
-#     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-#     code_content = Column(Text, nullable=False)
-#     submission_time = Column(TIMESTAMP, default=current_time, nullable=False)
-#     is_correct = Column(Boolean)
-#     compile_result = Column(Text)
-#     language = Column(String(20), nullable=False)
+    sub_id = Column(Integer, primary_key=True, autoincrement=True)
+    q_id = Column(Integer, ForeignKey("q_list.q_id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    code_content = Column(Text, nullable=False)
+    start_time = Column(TIMESTAMP, default=current_time, nullable=False)
+    submission_time = Column(TIMESTAMP, default=current_time, nullable=False)
+    is_correct = Column(Boolean)
+    compile_result = Column(Text)
+    language = Column(String(255))
+    face_many = Column(Integer)
+    face_empty = Column(Integer)
+    face_change = Column(Integer)
+    head_rotation = Column(Integer)
