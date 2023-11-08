@@ -4,7 +4,7 @@
     <title>face pse main page</title>
 
     <!--- cutom css line -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main2.css') }}">
 
     <!--- box icons link -->
     <link rel="stylesheet"
@@ -20,10 +20,42 @@
 <body>
     <header>
         <ul class="navlist">
-            <li class="user-name">안녕하세요, {{ current_user.username }}님!</li>
-            <li><a href="/logout">LOGOUT</a></li>
+            <li class="user-name">안녕하세요, {{ current_user.username }}님!😊</li>    
+            <li class="logout"><a href="/logout">LOGOUT</a></li>
         </ul>
+
+        <script>
+        function blinkUserName() {
+            const userNameElement = document.querySelector('.user-name');
+
+            if (userNameElement) {
+                let isVisible = true;
+
+                const blinkInterval = setInterval(() => {
+                    if (isVisible) {
+                        userNameElement.style.opacity = 0;
+                        isVisible = false;
+                    } else {
+                        userNameElement.style.opacity = 1;
+                        isVisible = true;
+                    }
+                }, 500); // 0.5초 간격으로 반짝거림.
+
+                // 일정 시간이 지난 후에 애니메이션을 멈춤
+                setTimeout(() => {
+                    clearInterval(blinkInterval); 
+                    userNameElement.style.opacity = 1; // 투명도를 원래대로 되돌림
+                }, 3000); // 3초 후에 애니메이션을 멈춤. 1000은 1초를 의미한다.
+            }
+        }
+
+        blinkUserName();
+
+
+        </script>
     </header>
+    
+
     <section class="home" id="home">
         <div class="hero-text">
             
