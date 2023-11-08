@@ -1,12 +1,11 @@
 <head>
   <meta charset="uft-8">
   <meta name="viewpoint" content="width=device-width, initial-scale=1">
-  <title>Codepse main</title>
+  <title>Facepse SingUp</title>
 
   <!-- cutom css line -->
   <!--<link rel="stylesheet" type="text/css" href="../css/signup.css"> -->
   <link href="{{ url_for('static', filename='css/signup.css') }}" rel="stylesheet">
-
 
   <!-- box icons link -->
   <link rel="stylesheet"
@@ -18,15 +17,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-
 </head>
 <body>
-
   <!-- 헤더 섹션 -->
   <header>
       <a href="{{ url_for('home') if current_user.is_authenticated else url_for('home') }}" class="logo">FACE PSE</a>
       <div class="bx bx menu" id="menu-icon"></div>
-
   </header>
   <head>
     <section class="signup" id="signup">
@@ -40,7 +36,7 @@
 
 <h1>회원가입</h1>
 <form method="post" action="/signup">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
     <div class="field-container">
         <input type="text" id="name" name="name" required pattern="^[가-힣a-zA-Z]{1,50}$" placeholder="이름" />
         <p id="nameMessage"></p>
@@ -61,8 +57,7 @@
 
     <label for="consentCheckbox">
       <input type="checkbox" id="consentCheckbox"> 웹 캠 액세스에 동의합니다.
-  </label>
-  
+    </label>
     <input type="submit" value="회원가입" />
 </form>
 

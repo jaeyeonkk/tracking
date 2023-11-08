@@ -8,7 +8,9 @@ from flask import (
     jsonify,
 )
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager
+from flask_wtf.csrf import generate_csrf
 
+from app.csrf_protection import csrf
 from app.forms import LoginForm, SignupForm
 from database.database import get_db_connection
 from database.models import User, FaceUser
@@ -104,7 +106,8 @@ def signup():
         db_session.close()
         return redirect(url_for("auth.login"))
     else:
-        response = make_response(render_template("signup.html"))
+        csrf_token = generate_csrf()
+        response = make_response(render_template("signup.html", csrf_token=csrf_token))
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Pragma"] = "no-cache"
         response.headers["Expires"] = "0"
@@ -113,11 +116,12 @@ def signup():
 
 
 @auth.route("/check_duplicate", methods=["POST"])
+@csrf.exempt
 def check_duplicate():
     db_session = get_db_connection()
     email = request.form.get("useremail")
 
-    user = db_session.query(User).filter_by(user_email=email).first()
+    user = db_session.query(FaceUser).filter_by(user_email=email).first()
 
     if user:
         db_session.close()

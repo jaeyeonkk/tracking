@@ -1,0 +1,44 @@
+<head>
+    <meta charset="uft-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title>face pse main page</title>
+
+    <!--- cutom css line -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <!--- box icons link -->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!--- google fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <ul class="navlist">
+            <li class="user-name">안녕하세요, {{ current_user.username }}님!</li>
+            <li><a href="/logout">LOGOUT</a></li>
+        </ul>
+    </header>
+    <section class="home" id="home">
+        <div class="hero-text">
+            
+            <h3>WELCOME TO</h3>
+            <h1>FACE PSE</h1>
+            <h4>Mummy don't know daddy's getting hot<br>
+                At the body shop, doing something unholy<br>
+                He lucky, lucky, yeah (ooh)<br>
+                He lucky, lucky, yeah (ye-yeah)
+            </h4>
+            <a href="/test_list" class="btn">GET STARTED</a>
+            <div class="home-img">
+                <img alt="#" src="{{ url_for('static', filename='images/mainn2.jpg') }}">
+            </div>
+        </div>
+    </section>
+
+
