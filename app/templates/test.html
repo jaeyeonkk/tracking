@@ -42,11 +42,10 @@
     <div id="feedback-box" class="hidden"></div>
   </section>
 
-  <div id="webcam-container" class="ui-widget-content">
-    <div id="webcam-view">
-      <video id="webcam" autoplay></video>
-    </div>
-  </div>
+  <div style="text-align:center;">
+    <h1>Eye Tracking</h1>
+    <img src="/video_feed" alt="Eye Tracking">
+</div>
 
   <script>
     const header = document.querySelector("header");
@@ -186,23 +185,40 @@
           }
         });
       });
-            // 웹캠 뷰를 작은 창으로 이동 가능하도록 만듭니다.
-            $("#webcam-container").draggable();
-    });
-
-    // 웹캠 스트림 가져오기
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(function(stream) {
-        var webcam = document.getElementById("webcam");
-        if (webcam) {
-          webcam.srcObject = stream;
-        }
-      })
-      .catch(function(error) {
-        console.error("웹캠 스트림을 가져오는 중 오류 발생: " + error);
     });
   </script>
-  
+
+<script>
+  const videoFeed = document.getElementById("video-feed");
+  let videoFeedInterval = null;
+
+</script>
+
+<script>
+  function checkFaceCount(q_id) {
+      fetch("http://127.0.0.1:5000/test/" + q_id + "/face_info")
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          if (data.face_count > 1) {
+              alert('얼굴 많아!');
+          }5
+          if (data.no_face_for >= 5) {
+              alert('어디갔어!');
+          }
+          if (data.face_changed) {
+              alert('사람이 변했어!');
+          }
+          if (data.head_rotation_alert) {
+              alert('고개가 회전되었습니다!');
+          }
+      });
+}
+setInterval(function() {
+    checkFaceCount({{ q_id }});  // q_id를 템플릿 변수로부터 가져와 전달
+  }, 1000);  // Check every 1000 milliseconds (1 second)
+</script>
+
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
 </html>

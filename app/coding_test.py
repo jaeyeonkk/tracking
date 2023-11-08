@@ -2,7 +2,7 @@ import pytz
 
 from datetime import datetime
 
-from flask import Blueprint, render_template, session, request, redirect, url_for
+from flask import Blueprint, Response, jsonify, render_template, session, request, redirect, url_for
 from flask_login import login_required
 
 from sqlalchemy import func
@@ -21,6 +21,8 @@ from database.database import get_db_connection
 from database.models import QList
 
 from sqlalchemy import and_, or_
+
+from app.tracking import eye_tracking
 
 coding_test = Blueprint("coding_test", __name__)
 
@@ -108,7 +110,7 @@ def test_view(q_id):
     session["q_id"] = q_id
     conn.close()
 
-    return render_template("test.html", q_list=q_info)
+    return render_template("test.html", q_list=q_info, q_id=q_id)
 
 
 @coding_test.route("/accept_cam/<int:q_id>", methods=['GET', 'POST'])
@@ -199,3 +201,16 @@ def submit():
     conn.close()
 
     return result  # 채점 결과를 반환
+
+
+@coding_test.route("/video_feed")
+@login_required
+def video_feed():
+    return Response(eye_tracking(), mimetype="multipart/x-mixed-replace; boundary=frame")
+
+@coding_test.route('/face_info')
+@login_required
+def face_info_route():
+    global face_count, last_face_seen_time, face_changed, head_rotation_alert
+    no_face_for = (datetime.now() - last_face_seen_time).seconds if last_face_seen_time else 0
+    return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, head_rotation_alert=head_rotation_alert)
