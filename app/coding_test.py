@@ -23,8 +23,9 @@ coding_test = Blueprint("coding_test", __name__)
 
 PER_PAGE = 10
 
-@login_required
+
 @coding_test.route("/test_list")
+@login_required
 def test_list():
     page = request.args.get("page", 1, type=int)
 
@@ -74,14 +75,15 @@ def test_list():
 
 
 @coding_test.route("/test/<int:q_id>")
+@login_required
 def test_view(q_id):
 
     conn = get_db_connection()
     q_info = conn.query(QList).filter(QList.q_id == q_id).first()
 
-    # # 현재 시간을 기록
-    # seoul_timezone = pytz.timezone("Asia/Seoul")  # 한국 시간
-    # test_start_time = datetime.now(seoul_timezone)
+    # 현재 시간을 기록
+    seoul_timezone = pytz.timezone("Asia/Seoul")  # 한국 시간
+    test_start_time = datetime.now(seoul_timezone)
 
     # # 데이터베이스에 테스트 시작 시간 저장
     # student = Student(q_id=q_id, test_start_time=test_start_time)
