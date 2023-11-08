@@ -3,8 +3,8 @@ import pytz
 
 from datetime import datetime
 
-
 from flask import Blueprint, render_template, session, request, redirect, url_for
+from flask_login import login_required, current_user
 from sqlalchemy import func
 
 from app.compile import (
@@ -23,7 +23,7 @@ coding_test = Blueprint("coding_test", __name__)
 
 PER_PAGE = 10
 
-
+@login_required
 @coding_test.route("/test_list")
 def test_list():
     page = request.args.get("page", 1, type=int)
