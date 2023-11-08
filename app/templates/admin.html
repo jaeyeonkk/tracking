@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>관리자 홈페이지</title>
+    <title>FacePse Admin Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,21 +26,35 @@
 </head>
 <body>
     <div class="container">
-        <h1>코딩 테스트 문제 게시판</h1>
+        <h1>Admin Page</h1>
         <ul id="problem-list">
+            {% for i in q_list %}
             <li class="problem-item">
-                <h2>문제 1: 배열 뒤집기</h2>
-                <p>주어진 배열을 뒤집는 함수를 작성하세요.</p>
-                <button onclick="solveProblem(1)">문제 풀기</button>
+                <h3>{{ i[0] }}. {{ i[2] }}</h3>
+                <button onclick="solveProblem(1)">결과 보기</button>
             </li>
-            <li class="problem-item">
-                <h2>문제 2: 소수 찾기</h2>
-                <p>주어진 숫자 중에서 소수를 찾는 함수를 작성하세요.</p>
-                <button onclick="solveProblem(2)">문제 풀기</button>
-            </li>
-            <!-- 다른 문제들을 추가할 수 있습니다 -->
+            {% endfor %}
         </ul>
     </div>
+    <div class="pagination">
+        {% if current_page > 10 %}
+          <a href="{{ url_for('coding_test.admin', page=current_page-10) }}">&lt;&lt;</a>
+        {% endif %}
+  
+        {% for i in range(current_page - (current_page-1)%10, current_page - (current_page-1)%10 + 10) %}
+          {% if i <= total_pages %}
+            {% if i == current_page %}
+              <span>{{ i }}</span>
+            {% else %}
+              <a href="{{ url_for('coding_test.admin', page=i) }}">{{ i }}</a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+  
+        {% if current_page // 10 < total_pages // 10 %}
+          <a href="{{ url_for('coding_test.admin', page=current_page+10) }}">&gt;&gt;</a>
+        {% endif %}
+      </div>
 
     <script>
         function solveProblem(problemId) {
