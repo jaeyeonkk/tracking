@@ -38,7 +38,7 @@
     </div>
     <div class="pagination">
         {% if current_page > 10 %}
-          <a href="{{ url_for('coding_test.admin', page=current_page-10) }}">&lt;&lt;</a>
+          <a href="{{ url_for('dashboard.admin', page=current_page-10) }}">&lt;&lt;</a>
         {% endif %}
   
         {% for i in range(current_page - (current_page-1)%10, current_page - (current_page-1)%10 + 10) %}
@@ -46,13 +46,13 @@
             {% if i == current_page %}
               <span>{{ i }}</span>
             {% else %}
-              <a href="{{ url_for('coding_test.admin', page=i) }}">{{ i }}</a>
+              <a href="{{ url_for('dashboard.admin', page=i) }}">{{ i }}</a>
             {% endif %}
           {% endif %}
         {% endfor %}
   
         {% if current_page // 10 < total_pages // 10 %}
-          <a href="{{ url_for('coding_test.admin', page=current_page+10) }}">&gt;&gt;</a>
+          <a href="{{ url_for('dashboard.admin', page=current_page+10) }}">&gt;&gt;</a>
         {% endif %}
       </div>
 

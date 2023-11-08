@@ -18,7 +18,6 @@
             {% for i in q_list %}
               <td>{{ i[0] }}</td> <!-- 문제 번호 -->
               <td>
-                <!-- <a href="{{ url_for('coding_test.test_view', q_id=i[0]) }}">{{ i[2] }}</a> -->
                 <a href="{{ url_for('coding_test.accept_cam', q_id=i[0]) }}">{{ i[2] }}</a>
               </td>
             </tr>
