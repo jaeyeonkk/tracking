@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+
+
+.logo {
+    color: #fff;
+    font-weight: 700;
+    font-size: 35px;
+    text-decoration: none;
+    font-family: 'Permanent Marker', sans-serif;   
+}
+
+*{
+    background: url(../images/main_back.png);
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.wrapper {
+    margin-top: 40px;
+    width: 500px;
+    padding: 75px;
+    border: 2px solid #f0f0f0;  
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+
+.wrapper h1 {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 60px;
+    margin-top: -20px;
+    text-align: center;
+    color: #fff;
+}
+
+.wrapper .input-field {
+    opacity: 0;
+    z-index: -999;
+    position: absolute;
+
+}
+
+p{
+    color: #fff;
+    font-weight: bolder;
+}

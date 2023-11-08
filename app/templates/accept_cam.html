@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
+
+    <!--- cutom css line -->
+    <link rel="stylesheet" type="text/css" href="../css/accept_cam.css">
+
+    <!--- box icons link -->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!--- google fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+
 <head>
     <title>웹 캠 액세스 동의</title>
 </head>
+
+<section class="acceptcam" id="acceptcam">
+    <header>
+        <a href="../templates/main.html" class="logo">FACE PSE</a>
+    </header>
 <body>
+    <div class="center-container">
+        <div class="wrapper">
+          <textarea class="input-field"></textarea>
+
     <h1>웹 캠 액세스 동의</h1>
     <p><strong>목적:</strong> 이 웹 사이트는 웹 캠을 사용하여 [목적을 설명]을 위한 정보를 수집합니다. 예를 들어, 이 정보는 [목적에 대한 예]에 사용됩니다.</p>
     <p><strong>수집 정보:</strong> 웹 캠을 통해 수집되는 정보는 [어떤 정보가 수집되는지 설명]입니다.</p>
     <p><strong>보호:</strong> 수집된 정보는 [보호 방법 설명]으로 보호됩니다.</p>
     <p>웹 캠 액세스를 허용하려면 아래 동의 체크 박스를 선택하세요:</p>
+
     <label for="consentCheckbox">
         <input type="checkbox" id="consentCheckbox"> 웹 캠 액세스에 동의합니다.
     </label>
@@ -40,4 +65,7 @@
         });
     </script>
 </body>
+</div>
+</div>
+</section>
 </html>
