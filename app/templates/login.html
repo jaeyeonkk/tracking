@@ -1,16 +1,15 @@
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="uft-8">
-    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"> <!-- "uft-8"를 "utf-8"로 수정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Codepse main</title>
   
-    <!-- cutom css line -->
-    <link rel="stylesheet" type="text/css" href="../css/login.css">
-    <!--<link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">-->
-  
+    <!-- custom CSS link -->
+    <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
   
     <!-- box icons link -->
-    <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   
     <!-- google fonts link -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,52 +17,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-  
-  </head>
-  <body>
+</head>
+<body>
   
     <!-- 헤더 섹션 -->
     <header>
-        <a href="{{ url_for('home') if current_user.is_authenticated else url_for('not_logged_home') }}" class="logo">FACE PSE</a>
-        <div class="bx bx menu" id="menu-icon"></div>
-  
-
+        <a href="{{ url_for('home') if current_user.is_authenticated else url_for('home') }}" class="logo">FACE PSE</a>
+        <div class="bx bx-menu" id="menu-icon"></div> <!-- "bx bx menu"를 "bx bx-menu"로 수정 -->
     </header>
   
-  <head>
-    <title>Login</title>
-  </head>
-  <section class="login" id="login">
-  <body>
-  
-    <div class="center-container">
-    <div class="wrapper">
-      <textarea class="input-field"></textarea>
-    
-    <h1>로그인</h1>
-    <form method="post" action="/login">
-      {{ form.csrf_token }}
-      {{ form.useremail(placeholder="이메일") }} <!-- label 태그 제거 -->
-      <br />
-      {{ form.password(placeholder="비밀번호") }} <!-- label 태그 제거 -->
-      <br />
-      <input type="submit" value="로그인" />
-  </form>
-  
-    <p>계정이 없으신가요?    <a href="../templates/signup.html">회원가입</a></p>
-    <script>
-      // 페이지가 로드되었을 때 알림창 표시
-      window.onload = function() {
-        {% if error_message %}
-        alert("{{ error_message }}");
-        {% endif %}
-      }
-      
-    </script>
-    </div>
+    <section class="login" id="login">
+        <div class="center-container">
+            <div class="wrapper">
+                <!-- <input type="text" class="input-field"> <textarea>를 <input type="text">로 수정 -->
+                <h1>로그인</h1>
+                <form method="post" action="/login">
+                    {{ form.useremail(placeholder="이메일") }}
+                    <br />
+                    {{ form.password(placeholder="비밀번호") }}
+                    <br />
+                    <input type="submit" value="로그인" />
+                </form>
+                <p>계정이 없으신가요? <a href="/signup">회원가입</a></p>
+                <script>
+                    // 페이지가 로드되었을 때 알림창 표시
+                    window.onload = function() {
+                        {% if error_message %}
+                        alert("{{ error_message }}");
+                        {% endif %}
+                    }
+                </script>
+            </div>
+        </div>
     </section>
   
-        </section>
-        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-  </body>
-  
+    <!-- 닫는 </section> 태그 제거 -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
