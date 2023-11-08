@@ -4,7 +4,8 @@ import pytz
 from datetime import datetime
 
 from flask import Blueprint, render_template, session, request, redirect, url_for
-from flask_login import login_required, current_user
+from flask_login import login_required
+
 from sqlalchemy import func
 
 from app.compile import (
@@ -14,8 +15,11 @@ from app.compile import (
     java_compile_run_code,
     grade_code,
 )
+
+from app.forms import AcceptForm
+
 from database.database import get_db_connection
-from database.models import QList, Student
+from database.models import QList
 
 from sqlalchemy import and_, or_
 
@@ -98,30 +102,39 @@ def test_view(q_id):
 
 
 @coding_test.route("/accept_cam/<int:q_id>", methods=['GET', 'POST'])
+@login_required
 def accept_cam(q_id):
-    session["q_id"] = q_id
+     form = AcceptForm()
+     if form.validate_on_submit():  # Check if the form was submitted and is valid
+        # Handle form submission, e.g., save data to the database
 
-    if request.method == "POST":
-        name = request.form.get("name")
-        q_id = request.form.get("q_id")  # 추가된 문제 번호
-        test_start_time = request.form.get("test_start_time")  # 추가된 시작 시간
+        return redirect(url_for("coding_test.test_view", q_id=q_id))
+     
+     return render_template("accept_cam.html", form=form, q_id=q_id)
 
-        if name:
-            db_session = get_db_connection()
+    # session["q_id"] = q_id
 
-            # 현재 시간을 기록
-            seoul_timezone = pytz.timezone("Asia/Seoul")  # 한국 시간
-            test_start_time = datetime.now(seoul_timezone)
+    # if request.method == "POST":
+    #     name = request.form.get("name")
+    #     q_id = request.form.get("q_id")  # 추가된 문제 번호
+    #     test_start_time = request.form.get("test_start_time")  # 추가된 시작 시간
 
-            new_student = Student(name=name, q_id=q_id, test_start_time=test_start_time)  # 이름, 문제 번호, 시작 시간 저장
-            db_session.add(new_student)
-            db_session.commit()
-            db_session.close()
+    #     if name:
+    #         db_session = get_db_connection()
 
-            session["q_id"] = q_id
-            return redirect(url_for("coding_test.test_view", q_id=q_id))
+    #         # 현재 시간을 기록
+    #         seoul_timezone = pytz.timezone("Asia/Seoul")  # 한국 시간
+    #         test_start_time = datetime.now(seoul_timezone)
 
-    return render_template("accept_cam.html", q_id=q_id)
+    #         new_student = Student(name=name, q_id=q_id, test_start_time=test_start_time)  # 이름, 문제 번호, 시작 시간 저장
+    #         db_session.add(new_student)
+    #         db_session.commit()
+    #         db_session.close()
+
+    #         session["q_id"] = q_id
+    #         return redirect(url_for("coding_test.test_view", q_id=q_id))
+
+    # return render_template("accept_cam.html", q_id=q_id)
 
 
 

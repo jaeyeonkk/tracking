@@ -13,7 +13,7 @@ from flask_wtf.csrf import generate_csrf
 from app.csrf_protection import csrf
 from app.forms import LoginForm, SignupForm
 from database.database import get_db_connection
-from database.models import User, FaceUser
+from database.models import FaceUser
 
 auth = Blueprint("auth", __name__)
 
@@ -22,7 +22,7 @@ login_manager = LoginManager()
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    return FaceUser.get(user_id)
 
 
 @login_manager.unauthorized_handler
@@ -52,7 +52,7 @@ def login():
         password = form.password.data
 
         # 해당 이메일을 가진 사용자를 데이터베이스에서 찾음
-        user = db_session.query(User).filter_by(user_email=email).first()
+        user = db_session.query(FaceUser).filter_by(user_email=email).first()
 
         # 사용자가 존재하고 비밀번호가 맞는 경우
         if user is not None:

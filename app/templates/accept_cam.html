@@ -2,7 +2,8 @@
 <html>
 
     <!--- cutom css line -->
-    <link rel="stylesheet" type="text/css" href="../css/accept_cam.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../css/accept_cam.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/accept_cam.css') }}">
 
     <!--- box icons link -->
     <link rel="stylesheet"
@@ -21,7 +22,7 @@
 
 <section class="acceptcam" id="acceptcam">
     <header>
-        <a href="../templates/main.html" class="logo">FACE PSE</a>
+        <a href="/main" class="logo">FACE PSE</a>
     </header>
 <body>
     <div class="center-container">
@@ -39,9 +40,7 @@
     </label>
 
     <form method="post">
-        <p>이름을 입력하세요:</p>
-        <input type="text" name="name" placeholder="이름을 입력하세요" required>
-        <input type="hidden" name="q_id" value="{{ q_id }}">
+        {{ form.csrf_token }}
         <button id="consentButton" disabled>동의</button>
     </form>
     <script>
@@ -73,11 +72,4 @@
     </script>
     
 </body>
-<<<<<<< HEAD
-</div>
-</div>
-</section>
 </html>
-=======
-</html>
->>>>>>> fff73de00e14b24dbdb07cb0c26a95aa94b228c6
