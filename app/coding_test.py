@@ -1,4 +1,3 @@
-import html
 import pytz
 
 from datetime import datetime
@@ -37,32 +36,13 @@ def test_list():
     if page < 1:
         page = 1
 
-    levels = [html.escape(level) for level in request.args.getlist("levels")]
-    languages = [html.escape(language) for language in request.args.getlist("languages")]
-
-    filters = []
-    level_filters = []
-    language_filters = []
-
-    for level in levels:
-        level_filters.append(QList.q_level == level)
-
-    for lang in languages:
-        language_filters.append(QList.q_lang == lang)
-
-    if level_filters:
-        filters.append(or_(*level_filters))
-
-    if language_filters:
-        filters.append(or_(*language_filters))
-
     conn = get_db_connection()
 
-    total_tests = conn.query(func.count(QList.q_id)).filter(and_(*filters)).scalar()
+    total_tests = conn.query(func.count(QList.q_id)).scalar()
 
     q_list = (
         conn.query(QList.q_id, QList.q_level, QList.q_name, QList.q_lang)
-        .filter(and_(*filters))
+
         .offset((page - 1) * PER_PAGE)
         .limit(PER_PAGE)
         .all()
@@ -72,6 +52,36 @@ def test_list():
 
     return render_template(
         "test_list.html",
+        q_list=q_list,
+        current_page=page,
+        total_pages=(total_tests + PER_PAGE - 1) // PER_PAGE,
+    )
+
+
+@coding_test.route("/admin")
+@login_required
+def admin():
+    page = request.args.get("page", 1, type=int)
+
+    # 페이지 번호가 0이하일 경우 1로 설정
+    if page < 1:
+        page = 1
+
+    conn = get_db_connection()
+
+    total_tests = conn.query(func.count(QList.q_id)).scalar()
+
+    q_list = (
+        conn.query(QList.q_id, QList.q_level, QList.q_name)
+        .offset((page - 1) * PER_PAGE)
+        .limit(PER_PAGE)
+        .all()
+    )
+
+    conn.close()
+
+    return render_template(
+        "admin.html",
         q_list=q_list,
         current_page=page,
         total_pages=(total_tests + PER_PAGE - 1) // PER_PAGE,
