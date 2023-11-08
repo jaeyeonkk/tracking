@@ -4,8 +4,6 @@ from wtforms import (
     PasswordField,
     SubmitField,
     validators,
-    TextAreaField,
-    FileField,
 )
 from wtforms.validators import DataRequired
 
@@ -22,24 +20,5 @@ class SignupForm(FlaskForm):
     submit = SubmitField("Sign Up")
 
 
-class BoardWriteForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    content = TextAreaField("Content", validators=[DataRequired()])
-    file = FileField("File")
-
-
-class BoardEditForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    content = TextAreaField("Content", validators=[DataRequired()])
-    file = FileField("File")
-    remove_files = FileField("Remove Files")
-    original_files = FileField("Original Files")
-
-
-class CommentForm(FlaskForm):
-    comment = TextAreaField("Comment", validators=[DataRequired()])
-    submit = SubmitField("Add Comment")
-
-
-class DeleteForm(FlaskForm):
-    pass
+class AcceptForm(FlaskForm):
+    submit = SubmitField("동의")
