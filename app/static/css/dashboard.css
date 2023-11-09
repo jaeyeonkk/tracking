@@ -123,6 +123,24 @@ h1{
     
 }
 
+.horizontal-line {
+    height: 1px;
+    background-color: #ccc;
+    margin-top: 10px;
+}
+
+
+
+
+
+.additional-text {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+    margin-top: 10px;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
