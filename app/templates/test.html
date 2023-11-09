@@ -5,10 +5,7 @@
   <title>{{ q_list.q_name }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<<<<<<< HEAD
-
-
-=======
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/codingtest.css') }}">
   <style>
     .container {
@@ -20,7 +17,6 @@
       width: 48%;
     }
   </style>
->>>>>>> 582181c9a638fb1d5c67455f0b3b48ae28d101eb
 </head>
 <body>
   <!-- 코딩 테스트 섹션 -->
@@ -61,12 +57,24 @@
     </div>
 
     <!-- 아이 트래킹 섹션 -->
-    <div class="section" id="EyeTracking">
+    <div class="section" id="draggableEyeTracking">
       <div style="text-align:center;">
-        <h1>Eye Tracking</h1>
         <img src="/video_feed" alt="Eye Tracking">
     </div>
     <script>
+  $(function() {
+    // 아이 트래킹 섹션에 드래그 가능하게 설정
+    $("#draggableEyeTracking").draggable();
+  });
+</script>
+    <script>
+// 경고창 발생 횟수를 저장할 객체
+const alertCounts = {
+  faceMany: 0,
+  faceEmpty: 0,
+  faceChange: 0,
+  headRotation: 0
+};
     function checkFaceCount() {
       fetch("http://127.0.0.1:5000/face_info")
       .then(response => response.json())
@@ -74,19 +82,51 @@
         console.log(data);
         if (data.face_count > 1) {
           alert('얼굴 많아!');
-        }5
+          alertCounts.faceMany++;
+        }
         if (data.no_face_for >= 5) {
           alert('어디갔어!');
+          alertCounts.faceEmpty++;
         }
         if (data.face_changed) {
           alert('사람이 변했어!');
+          alertCounts.faceChange++;
         }
         if (data.head_rotation_alert) {
           alert('고개가 회전되었습니다!');
+          alertCounts.headRotation++;
         }
       });
-    }
+  }
     setInterval(checkFaceCount, 1000);  // Check every 1000 milliseconds (1 second)
+   /* 
+    $("#submit").click(function() {
+  if (!isCodePresent()) {
+    alert("코드를 작성해주세요.");
+    return;
+  }
+
+  // alertCounts 객체에 담긴 경고창 발생 횟수를 서버로 보낼 데이터에 추가
+  var submissionData = {
+    code: $("textarea[name='code']").val(),
+    language: $("select[name='language']").val(), // 언어 선택 값을 추가
+    face_many: alertCounts.faceMany,
+    face_empty: alertCounts.faceEmpty,
+    face_change: alertCounts.faceChange,
+    head_rotation: alertCounts.headRotation
+  };
+
+  $.ajax({
+    type: "POST",
+    url: "/submit",
+    data: submissionData,
+    success: function(result) {
+      $("#grade-box").html("<pre>" + result + "</pre>");
+      $("#grade-box").removeClass("hidden");
+    }
+  });
+});
+    */
     </script>
     </div>
   </div>
@@ -184,38 +224,5 @@
       });
     });
   </script>
-
-<script>
-  const videoFeed = document.getElementById("video-feed");
-  let videoFeedInterval = null;
-
-</script>
-
-<script>
-  function checkFaceCount(q_id) {
-      fetch("http://127.0.0.1:5000/test/" + q_id + "/face_info")
-      .then(response => response.json())
-      .then(data => {
-          console.log(data);
-          if (data.face_count > 1) {
-              alert('얼굴 많아!');
-          }5
-          if (data.no_face_for >= 5) {
-              alert('어디갔어!');
-          }
-          if (data.face_changed) {
-              alert('사람이 변했어!');
-          }
-          if (data.head_rotation_alert) {
-              alert('고개가 회전되었습니다!');
-          }
-      });
-}
-setInterval(function() {
-    checkFaceCount({{ q_id }});  // q_id를 템플릿 변수로부터 가져와 전달
-  }, 1000);  // Check every 1000 milliseconds (1 second)
-</script>
-
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
 </html>
