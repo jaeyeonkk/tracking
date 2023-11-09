@@ -53,11 +53,7 @@
             {% for i in q_list %}
               <td>{{ i[0] }}</td> <!-- 문제 번호 -->
               <td>
-<<<<<<< HEAD
                 <a href="{{ url_for('coding_test_utils.accept_cam', q_id=i[0]) }}">{{ i[2] }}</a>
-=======
-                <a class="board-link" href="{{ url_for('coding_test.accept_cam', q_id=i[0]) }}">{{ i[2] }}</a>
->>>>>>> e9f8fd41cd97bbd37d016bcfd4421f953036d65e
               </td>
             </tr>
             {% endfor %}
