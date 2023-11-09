@@ -1,6 +1,42 @@
-<!DOCTYPE html>
+
 <html>
-<head>
+  <head>
+    <meta charset="uft-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title>face pse main page</title>
+
+    <!--- cutom css line -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <!--- box icons link -->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!--- google fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+</head>
+
+<header>
+    
+  <ul class="navlist">
+    <a href="{{ url_for('home') if current_user.is_authenticated else url_for('home') }}" class="logo">FACE PSE</a>
+        
+    <li class="logout">
+      <span style="pointer-events: none; font-weight: bold;">안녕하세요, {{ current_user.username }}님!😊</span>
+      <a href="/logout">LOGOUT</a>
+  </li>
+  
+  </ul>
+
+</header>
+
+
+
+<body>
     <title>FacePse Admin Page</title>
     <style>
         body {
@@ -23,16 +59,16 @@
             padding: 10px;
         }
     </style>
-</head>
-<body>
+
+<section class="dashboard" id="dashboard">
     <div class="container">
-        <h1>Admin Page</h1>
+        <h1>Dash Board</h1>
         <ul id="problem-list">
             {% for i in q_list %}
             <li class="problem-item">
                 <h3>{{ i[0] }}. {{ i[2] }}</h3>
-                <button onclick="solveProblem(1)">결과 보기</button>
-            </li>
+                <button class="button-style" onclick="solveProblem(1)">결과 보기</button>
+
             {% endfor %}
         </ul>
     </div>
@@ -63,4 +99,5 @@
         }
     </script>
 </body>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </html>

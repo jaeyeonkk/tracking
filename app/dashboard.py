@@ -34,7 +34,7 @@ def admin():
     conn.close()
 
     return render_template(
-        "admin.html",
+        "dashboard.html",
         q_list=q_list,
         current_page=page,
         total_pages=(total_tests + PER_PAGE - 1) // PER_PAGE,
