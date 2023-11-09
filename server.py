@@ -18,9 +18,9 @@ def home():
     return render_template("main2.html")
 
 
-@app.route("/admin")
-def admin():
-    return render_template("admin.html")
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
 
 
 @app.route('/tracking')

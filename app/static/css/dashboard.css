@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Dosis', sans-serif;
+    list-style: none;
+    text-decoration: none;
+    scroll-behavior: smooth;
+    border: none;
+    outline: none;
+}
+
+:root{
+    --bg-color: #191919;
+    --secont-bg-color: #101010;
+    --main-color: #e9204f;
+    --text-color: #fff;
+    --second-color: #e4e4e4;
+    --other-color: #c6cd8f;
+
+    --h1-font: 7rem;
+    --h2-font: 3.5rem;
+    --p-font: 1.1rem;
+
+}
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+    background: url(../images/board_back.png);
+    background-attachment: fixed; 
+    color: var(--text-color);
+  
+}
+.navlist {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%;
+  }
+  
+
+  .user-name {
+    font-weight: bold;
+  }
+  
+
+header{
+   
+    color: white; 
+    text-align: center; 
+    width: 100%;
+    height: 60px; 
+  
+}
+
+.logo, .user-name {
+    margin-right: 1000px !important;
+  }
+  
+  
+.logo {
+    color: #fff;
+    font-weight: 700;
+    font-size: 30px !important;
+    text-decoration: none;
+    margin-right: 100px;
+    font-family: 'Permanent Marker', sans-serif;
+  
+}
+
+h1{
+    margin-top: 18px;
+    font-size: 50px;
+    margin-bottom: 18px;
+}
+  
+
+
+  
+
+.navlist {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+
+.navlist a{
+    color: #ffffff;
+    font-size: var(--p-font);
+    margin: 0 30px;
+    font-weight: bold; 
+    transition: all ease .40s; 
+}
+
+.navlist a:hover{
+    color: #a570ff;
+}
+
+
+.user-name {
+    font-weight: bold;
+  }
+
+
+
+.problem-item {
+    border: 1px solid #e6e6e6 !important;
+    margin: 20px 0;
+    padding: 60px; 
+    border-radius: 10px;
+    transition: transform 0.2s;
+    
+}
+
+.horizontal-line {
+    height: 1px;
+    background-color: #ccc;
+    margin-top: 10px;
+}
+
+
+
+
+
+.additional-text {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* 페이지 표시와 박스 사이 간격 조절 */
+}
+
+.pagination a,
+.pagination span {
+    font-weight: bold;
+    margin: 0 5px; /* 페이지 아이템 간격 조절 */
+    margin-bottom: 10px;
+    font-size: 18px;
+
+}
+
+.problem-item:hover {
+    transform: translate(5px, 5px); 
+}
+  
+
+.button-style {
+    background-color: #1385ff;
+    color: #fff;
+    border: none;
+    padding: 6px 12px; /* 버튼의 패딩 조절 */
+    font-size: 14px; /* 버튼의 글자 크기 조절 */
+    font-weight: bold; /* 글자를 두껍게 만듭니다 */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 1100px;
+}
+
+.button-style:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+
+

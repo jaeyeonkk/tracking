@@ -19,10 +19,16 @@
 </head>
 <body>
     <header>
+    
         <ul class="navlist">
             <li class="user-name">안녕하세요, {{ current_user.username }}님!😊</li>    
             <li class="logout"><a href="/logout">LOGOUT</a></li>
+            
         </ul>
+        <a href="/admin">
+            <i class='bx bxs-user-detail'></i>
+        </a>
+          
 
         <script>
         function blinkUserName() {
@@ -45,7 +51,7 @@
                 setTimeout(() => {
                     clearInterval(blinkInterval); 
                     userNameElement.style.opacity = 1; // 투명도를 원래대로 되돌림
-                }, 3000); // 3초 후에 애니메이션을 멈춤. 1000은 1초를 의미한다.
+                }, 4000); // 3초 후에 애니메이션을 멈춤. 1000은 1초를 의미한다.
             }
         }
 
@@ -54,7 +60,6 @@
 
         </script>
     </header>
-    
 
     <section class="home" id="home">
         <div class="hero-text">

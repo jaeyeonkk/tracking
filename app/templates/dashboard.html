@@ -1,0 +1,105 @@
+
+<html>
+  <head>
+    <meta charset="uft-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title>face pse main page</title>
+
+    <!--- cutom css line -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <!--- box icons link -->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!--- google fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+</head>
+
+<header>
+    
+  <ul class="navlist">
+    <a href="{{ url_for('home') if current_user.is_authenticated else url_for('home') }}" class="logo">FACE PSE</a>
+        
+    <li class="logout">
+      <span style="pointer-events: none; font-weight: bold;">안녕하세요, {{ current_user.username }}님!😊</span>
+      <a href="/logout">LOGOUT</a>
+  </li>
+  
+  </ul>
+
+</header>
+
+
+
+<body>
+    <title>FacePse Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        #problem-list {
+            list-style: none;
+            padding: 0;
+        }
+        .problem-item {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 10px;
+        }
+    </style>
+
+<section class="dashboard" id="dashboard">
+    <div class="container">
+        <h1>Dash Board</h1>
+        <ul id="problem-list">
+          {% for i in q_list %}
+          <li class="problem-item">
+              <h3>{{ i[0] }}. {{ i[2] }}</h3>
+              <div class="horizontal-line"></div>
+              <div class="additional-text">코딩테스트 문제에 대한 간단한 설명.</div>
+              <button class="button-style" onclick="solveProblem(1)">결과 보기</button>
+             
+          {% endfor %}
+      </ul>
+    </div>
+    <div class="pagination">
+        {% if current_page > 10 %}
+          <a href="{{ url_for('dashboard.admin', page=current_page-10) }}">&lt;&lt;</a>
+        {% endif %}
+  
+        {% for i in range(current_page - (current_page-1)%10, current_page - (current_page-1)%10 + 10) %}
+          {% if i <= total_pages %}
+            {% if i == current_page %}
+              <span>{{ i }}</span>
+            {% else %}
+              <a href="{{ url_for('dashboard.admin', page=i) }}">{{ i }}</a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+  
+        {% if current_page // 10 < total_pages // 10 %}
+          <a href="{{ url_for('dashboard.admin', page=current_page+10) }}">&gt;&gt;</a>
+        {% endif %}
+      </div>
+
+    <script>
+        function solveProblem(problemId) {
+            // 문제를 풀기 위한 로직을 여기에 추가하세요.
+            alert(`문제 ${problemId}를 풉니다!`);
+        }
+    </script>
+</body>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</html>
