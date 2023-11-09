@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN apt-get update && apt-get install -y pkg-config cmake
-
-RUN apt-get update && apt-get install -y default-libmysqlclient-dev g++ openjdk-11-jdk
+RUN apt-get update && \
+    apt-get install -y pkg-config cmake && \
+    apt-get install -y default-libmysqlclient-dev g++ openjdk-11-jdk &&
 
 RUN pip install -r requirements.txt
 

@@ -12,14 +12,17 @@ import pygame
 app = Flask(__name__, static_folder="app/static")
 app.template_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "app", "templates")
 
+
 # 효과음
 pygame.mixer.init()
 pygame.mixer.music.load("pjstall.wav")
+
 
 # 모델 및 데이터 로더
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 detector = dlib.get_frontal_face_detector()
 face_rec_model = dlib.face_recognition_model_v1("dlib_face_recognition_resnet_model_v1.dat")
+
 
 # 전역 변수를 선언하고 초기화
 face_count = 0
@@ -30,7 +33,9 @@ alert_playing = False
 eyes_closed_start_time = None
 head_rotation_alert = False
 
+
 executor = ThreadPoolExecutor(max_workers=4)  # 스레드 풀을 생성
+
 
 # 얼굴 특성 계산 함수
 def compute_face_descriptor(frame, landmarks):
@@ -48,6 +53,7 @@ def compute_face_descriptor(frame, landmarks):
         last_face_descriptor = current_face_descriptor
         face_changed = False
 
+
 # 눈 좌표 추출 함수
 def get_eye_landmarks(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -59,6 +65,7 @@ def get_eye_landmarks(frame):
 
     return landmarks
 
+
 # 눈 감았는지 확인하는 함수
 def is_eye_closed(landmarks):
     left_eye_ratio = (landmarks.part(42).y - landmarks.part(38).y) / (landmarks.part(40).x - landmarks.part(36).x)
@@ -66,9 +73,11 @@ def is_eye_closed(landmarks):
 
     return left_eye_ratio < 0.2 and right_eye_ratio < 0.2
 
+
 # 두 점 사이의 거리를 계산하는 함수
 def get_distance(p1, p2):
     return np.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2)
+
 
 # 입술 움직임을 계산하는 함수
 def get_mouth_movement(landmarks):
@@ -142,6 +151,7 @@ def eye_tracking():
                b'Content-Type: image/jpeg\r\n\r\n' + cv2.imencode('.jpg', frame)[1].tobytes() + b'\r\n')
 
     cap.release()
+
 
 @app.route('/face_info')
 def face_info_route():

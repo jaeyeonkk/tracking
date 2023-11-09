@@ -2,6 +2,7 @@ from flask import Flask
 from app.config import Config
 
 app = Flask(__name__, static_folder="static")
+
 app.template_folder = "templates"
 app.secret_key = Config.SECRET_KEY
 
