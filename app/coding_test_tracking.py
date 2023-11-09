@@ -42,6 +42,7 @@ alert_playing = False
 eyes_closed_start_time = None
 head_rotation_alert = False
 
+
 executor = ThreadPoolExecutor(max_workers=4)  # 스레드 풀을 생성, 이거 지우면 카메라 안 뜸
 
 
