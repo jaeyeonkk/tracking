@@ -18,7 +18,7 @@
             {% for i in q_list %}
               <td>{{ i[0] }}</td> <!-- 문제 번호 -->
               <td>
-                <a href="{{ url_for('coding_test.accept_cam', q_id=i[0]) }}">{{ i[2] }}</a>
+                <a href="{{ url_for('coding_test_utils.accept_cam', q_id=i[0]) }}">{{ i[2] }}</a>
               </td>
             </tr>
             {% endfor %}
@@ -37,13 +37,13 @@
           {% if i == current_page %}
             <span>{{ i }}</span>
           {% else %}
-            <a href="{{ url_for('coding_test.test_list', page=i) }}">{{ i }}</a>
+            <a href="{{ url_for('coding_test_utils.test_list', page=i) }}">{{ i }}</a>
           {% endif %}
         {% endif %}
       {% endfor %}
 
       {% if current_page // 10 < total_pages // 10 %}
-        <a href="{{ url_for('coding_test.test_list', page=current_page+10) }}">&gt;&gt;</a>
+        <a href="{{ url_for('coding_test_utils.test_list', page=current_page+10) }}">&gt;&gt;</a>
       {% endif %}
     </div>
   </body>
