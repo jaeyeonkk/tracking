@@ -17,7 +17,7 @@ from app.compile import (
 )
 from app.csrf_protection import csrf
 from app.forms import AcceptForm
-from .tracking import eye_tracking
+#from app.tracking import eye_tracking
 
 from database.database import get_db_connection
 from database.models import QList, FaceSubmissions
@@ -88,16 +88,16 @@ def test_view(q_id):
     return render_template("test.html", q_list=q_info, q_id=q_id)
 
 
-@coding_test.route('/face_info')
-def face_info_route():
-    global face_count, last_face_seen_time, face_changed, head_rotation_alert
-    no_face_for = (datetime.now() - last_face_seen_time).seconds if last_face_seen_time else 0
-    return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, head_rotation_alert=head_rotation_alert)
+# @coding_test.route('/face_info')
+# def face_info_route():
+#     global face_count, last_face_seen_time, face_changed, head_rotation_alert
+#     no_face_for = (datetime.now() - last_face_seen_time).seconds if last_face_seen_time else 0
+#     return jsonify(face_count=face_count, no_face_for=no_face_for, face_changed=face_changed, head_rotation_alert=head_rotation_alert)
 
 
-@coding_test.route('/video_feed')
-def video_feed():
-    return Response(eye_tracking(), mimetype='multipart/x-mixed-replace; boundary=frame')
+# @coding_test.route('/video_feed')
+# def video_feed():
+#     return Response(eye_tracking(), mimetype='multipart/x-mixed-replace; boundary=frame')
     
 
 
@@ -206,7 +206,7 @@ import time
 import cv2
 import dlib
 import numpy as np
-import pygame
+# import pygame
 from app import app
 
 from flask import current_app
@@ -218,9 +218,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 # 효과음 초기화 및 로드
-pygame.mixer.init()
-sound_file_path = os.path.join(app.root_path, 'static/audio', 'pjstall.wav')
-pygame.mixer.music.load(sound_file_path)
+# pygame.mixer.init()
+# sound_file_path = os.path.join(app.root_path, 'static/audio', 'pjstall.wav')
+# pygame.mixer.music.load(sound_file_path)
 
 # 모델 로드
 models_path = os.path.join(app.root_path, 'models')
@@ -231,6 +231,7 @@ face_rec_model_path = os.path.join(models_path, 'dlib_face_recognition_resnet_mo
 predictor = dlib.shape_predictor(predictor_path)
 detector = dlib.get_frontal_face_detector()
 face_rec_model = dlib.face_recognition_model_v1(face_rec_model_path)
+
 
 # 전역 변수를 선언하고 초기화
 face_count = 0
@@ -313,14 +314,16 @@ def detect_head_rotation(landmarks):
 
 def eye_tracking():
     global face_count, last_face_seen_time, alert_playing, eyes_closed_start_time, head_rotation_alert
+
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FPS, 15)  # FPS를 15로 설정
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)  # 너비를 640으로 설정
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)  # 높이를 480으로 설정
-    frame_count = 0
+    frame_count = 0 
 
     while True:
         ret, frame = cap.read()
+
         if not ret:
             break
             
@@ -328,6 +331,7 @@ def eye_tracking():
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = detector(gray)
         face_count = len(faces)
+
         if face_count > 0:
             last_face_seen_time = datetime.now()
 
@@ -340,11 +344,11 @@ def eye_tracking():
                     if eyes_closed_start_time is None:
                         eyes_closed_start_time = time.time()
                     elif time.time() - eyes_closed_start_time > 5:
-                        pygame.mixer.music.play()
+                        # pygame.mixer.music.play()
                         alert_playing = True
             else:
                 if alert_playing:
-                    pygame.mixer.music.stop()
+                #     pygame.mixer.music.stop()
                     alert_playing = False
                 eyes_closed_start_time = None
                     
@@ -359,3 +363,23 @@ def eye_tracking():
                b'Content-Type: image/jpeg\r\n\r\n' + cv2.imencode('.jpg', frame)[1].tobytes() + b'\r\n')
 
     cap.release()
+
+
+@app.route('/face_info')
+def face_info_route():
+    global face_count, last_face_seen_time, face_changed, head_rotation_alert, alert_playing
+    no_face_for = (datetime.now() - last_face_seen_time).seconds if last_face_seen_time else 0
+    return jsonify(
+        face_count=face_count,
+        no_face_for=no_face_for,
+        face_changed=face_changed,
+        head_rotation_alert=head_rotation_alert,
+        alert_playing=alert_playing  # 이 값을 추가
+    )
+
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(eye_tracking(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+

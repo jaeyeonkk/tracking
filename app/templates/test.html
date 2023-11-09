@@ -13,68 +13,150 @@
       justify-content: space-around;
       align-items: start;
     }
+
     .section {
       width: 48%;
     }
+
+    /* 모달창 스타일 */
+    .modal {
+            display: none; /* 기본적으로 숨겨져 있음 */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 100px;
+        }
+
+        /* 모달창 콘텐츠 스타일 */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* 모달창 닫기 버튼 스타일 */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
   </style>
 </head>
 <body>
-  <!-- 코딩 테스트 섹션 -->
-  <div class="container">
-    <div class="section" id="CodingTest">
-      <section class="coding">
-        <h1>[ {{ q_list.q_name }} ]</h1>
-        <div class="wrapper">
-          <div id="problem">
-            <p class="ttext">문제</p>
-            <p class="ttext2">{{ q_list.q_content | safe }}</p>
-          </div>
-          <div class="output-box">
-            <p class="ttext">출력 예시</p>
-            <p class="ttext2">{{ q_list.ex_print | safe }}</p>
-          </div>
-          <form action="/compile" method="POST">
-            <label for="language">언어 선택:</label>
-            <select name="language">
-              <option value="c">C</option>
-              <option value="c++">C++</option>
-              <option value="java">Java</option>
-              <option value="python">Python</option>
-            </select>
-            <textarea name="code" style="margin-top: 20px;" placeholder="정답을 입력해 주세요" rows="10" cols="75"></textarea>
-            <div class="button-group">
-              <input type="submit" id="compile" value="실행">
-              <button type="button" id="submit">제출/정보 저장</button>
-              <!-- <button type="button" id="save_code">코드 저장</button> -->
-            </div>
-          </form>
-        </div>
-        <div id="result"></div>
-        <div id="grade-box" class="hidden"></div>
-        <div id="answer-box" class="hidden"></div>
-        <div id="feedback-box" class="hidden"></div>
-      </section>
+  <!-- 트래킹을 시작하는 모달창 -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>트래킹을 시작합니다. 버튼을 클릭하세요.</p>
+        <button id="startButton">트래킹 시작</button>
     </div>
+</div>
 
-    <!-- 아이 트래킹 섹션 -->
-    <div class="section" id="draggableEyeTracking">
-      <div style="text-align:center;">
-        <img src="/video_feed" alt="Eye Tracking">
+<audio id="alertSound" src="/static/audio/pjstall.wav" preload="auto"></audio>
+
+<!-- 코딩 테스트 섹션 -->
+<div class="container">
+  <div class="section" id="CodingTest">
+    <section class="coding">
+      <h1>[ {{ q_list.q_name }} ]</h1>
+      <div class="wrapper">
+        <div id="problem">
+          <p class="ttext">문제</p>
+          <p class="ttext2">{{ q_list.q_content | safe }}</p>
+        </div>
+        <div class="output-box">
+          <p class="ttext">출력 예시</p>
+          <p class="ttext2">{{ q_list.ex_print | safe }}</p>
+        </div>
+        <form action="/compile" method="POST">
+          <label for="language">언어 선택:</label>
+          <select name="language">
+            <option value="c">C</option>
+            <option value="c++">C++</option>
+            <option value="java">Java</option>
+            <option value="python">Python</option>
+          </select>
+          <textarea name="code" style="margin-top: 20px;" placeholder="정답을 입력해 주세요" rows="10" cols="75"></textarea>
+          <div class="button-group">
+            <input type="submit" id="compile" value="실행">
+            <button type="button" id="submit">제출/정보 저장</button>
+            <!-- <button type="button" id="save_code">코드 저장</button> -->
+          </div>
+        </form>
+      </div>
+      <div id="result"></div>
+      <div id="grade-box" class="hidden"></div>
+      <div id="answer-box" class="hidden"></div>
+      <div id="feedback-box" class="hidden"></div>
+    </section>
+  </div>
+  
+  <!-- 아이 트래킹 섹션 -->
+  <div class="section" id="draggableEyeTracking">
+    <div style="text-align:center;">
+      <img src="/video_feed" alt="Eye Tracking">
     </div>
+    
+
+    <!-- script 태그는 파일마다 하나 -->
     <script>
-  $(function() {
-    // 아이 트래킹 섹션에 드래그 가능하게 설정
-    $("#draggableEyeTracking").draggable();
-  });
-</script>
-    <script>
-// 경고창 발생 횟수를 저장할 객체
-const alertCounts = {
-  faceMany: 0,
-  faceEmpty: 0,
-  faceChange: 0,
-  headRotation: 0
-};
+    // 모달창 가져오기
+    var modal = document.getElementById('myModal');
+    var btn = document.getElementById("startButton");
+    var span = document.getElementsByClassName("close")[0];
+
+    // 사용자가 모달창 외부를 클릭하면 모달창을 닫음
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // 사용자가 X 버튼을 클릭하면 모달창을 닫음
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // 트래킹 시작 버튼을 클릭하면 트래킹 함수를 호출
+    btn.onclick = function() {
+        modal.style.display = "none";
+        startTracking();
+    }
+
+    function startTracking() {
+        // 1초마다 얼굴 상태 확인
+        setInterval(checkFaceCount, 1000);
+    }
+
+    $(function() {
+      // 아이 트래킹 섹션에 드래그 가능하게 설정
+      $("#draggableEyeTracking").draggable();
+    });
+    
+    // 경고창 발생 횟수를 저장할 객체
+    const alertCounts = {
+      faceMany: 0,
+      faceEmpty: 0,
+      faceChange: 0,
+      headRotation: 0
+    };
+    
     function checkFaceCount() {
       fetch("http://127.0.0.1:5000/face_info")
       .then(response => response.json())
@@ -96,42 +178,56 @@ const alertCounts = {
           alert('고개가 회전되었습니다!');
           alertCounts.headRotation++;
         }
+        
+        const alertSound = document.getElementById('alertSound');
+        
+        // 눈이 감겼을 때(true), 소리를 재생
+        if (data.alert_playing) {
+          alertSound.play();
+        } 
+        // 눈이 뜨였을 때(false), 소리를 정지
+        else {
+          alertSound.pause(); // 현재 재생 중인 소리를 멈춤
+          alertSound.currentTime = 0; // 소리를 처음부터 다시 시작할 수 있도록 현재 시간을 0으로 설정한다.
+        }
       });
-  }
-    setInterval(checkFaceCount, 1000);  // Check every 1000 milliseconds (1 second)
-   /* 
-    $("#submit").click(function() {
-  if (!isCodePresent()) {
-    alert("코드를 작성해주세요.");
-    return;
-  }
-
-  // alertCounts 객체에 담긴 경고창 발생 횟수를 서버로 보낼 데이터에 추가
-  var submissionData = {
-    code: $("textarea[name='code']").val(),
-    language: $("select[name='language']").val(), // 언어 선택 값을 추가
-    face_many: alertCounts.faceMany,
-    face_empty: alertCounts.faceEmpty,
-    face_change: alertCounts.faceChange,
-    head_rotation: alertCounts.headRotation
-  };
-
-  $.ajax({
-    type: "POST",
-    url: "/submit",
-    data: submissionData,
-    success: function(result) {
-      $("#grade-box").html("<pre>" + result + "</pre>");
-      $("#grade-box").removeClass("hidden");
     }
-  });
-});
-    */
-    </script>
-    </div>
-  </div>
+    
+    setInterval(checkFaceCount, 1000);  // Check every 1000 milliseconds (1 second)
+
+    // 페이지 로드 시 모달창 표시
+    window.onload = function() {
+        modal.style.display = "block";
+    }
+    
+//     $("#submit").click(function() {
+//       if (!isCodePresent()) {
+//         alert("코드를 작성해주세요.");
+//         return;
+//       }
+
+//   // alertCounts 객체에 담긴 경고창 발생 횟수를 서버로 보낼 데이터에 추가
+//   var submissionData = {
+//     code: $("textarea[name='code']").val(),
+//     language: $("select[name='language']").val(), // 언어 선택 값을 추가
+//     face_many: alertCounts.faceMany,
+//     face_empty: alertCounts.faceEmpty,
+//     face_change: alertCounts.faceChange,
+//     head_rotation: alertCounts.headRotation
+//   };
+
+//   $.ajax({
+//     type: "POST",
+//     url: "/submit",
+//     data: submissionData,
+//     success: function(result) {
+//       $("#grade-box").html("<pre>" + result + "</pre>");
+//       $("#grade-box").removeClass("hidden");
+//     }
+//   });
+// });
+
   
-  <script>
     const header = document.querySelector("header");
 
     window.addEventListener("scroll", function() {
@@ -171,8 +267,6 @@ const alertCounts = {
           alert("코드를 작성해주세요.");
           return;
         }
-        
-
         $.ajax({
           type: "POST",
           url: "/submit",
@@ -186,6 +280,7 @@ const alertCounts = {
           }
         });
       });
+
 
       $("#save_code").click(function() {
         var codeContent = $("textarea[name='code']").val().trim();
