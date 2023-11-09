@@ -4,11 +4,11 @@ services:
   app:
     build: 
       context: .
-      dockerfile: Dockerfile  # 웹 애플리케이션용 Dockerfile 지정
+      dockerfile: Dockerfile
     command: ["python", "server.py"]
     volumes:
       - .:/app
     environment:
       DB_HOST: ${DB_HOST}
     ports:
-      - "5000:5000"  # 외부 포트:컨테이너 포트
+      - "5000:5000"
