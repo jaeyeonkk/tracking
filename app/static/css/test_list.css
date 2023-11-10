@@ -31,7 +31,7 @@
 
 body{
     font-family: 'Noto Sans KR', sans-serif;
-    background: url(../images/board_back.png);
+    background: url(../images/dash_back.png);
     background-attachment: fixed; 
     color: var(--text-color);
   
@@ -65,11 +65,12 @@ body{
   
 
 header{
-   
+    
     color: white; 
     text-align: center; 
     width: 100%;
-    height: 60px; 
+    height: 50px; 
+    background-color: rgb(29, 29, 29); 
   
 }
 
@@ -119,6 +120,8 @@ h3 {
     text-align: left;
     line-height: 2.5;
   }
+
+
   
   .th-num {
     width: 10%;
