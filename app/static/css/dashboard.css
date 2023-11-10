@@ -116,7 +116,7 @@ h1{
 
 .problem-item {
     border: 1px solid #e6e6e6 !important;
-    margin: 10px 0;
+    margin: 20px 0;
     padding: 40px; 
     border-radius: 15px;
     transition: transform 0.2s;
@@ -128,9 +128,6 @@ h1{
     background-color: #ccc;
     margin-top: 10px;
 }
-
-
-
 
 
 .additional-text {

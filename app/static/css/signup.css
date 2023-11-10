@@ -119,7 +119,8 @@ section.signup {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background: url(../images/back.png);
+    background: url(../images/signup_back.png);
+    background-size: contain;
     
 }
 
@@ -128,6 +129,7 @@ section.signup {
   
 
   .center-container {
+    margin-left: 800px;
     display: flex;
     justify-content: center;
     align-items: center;
