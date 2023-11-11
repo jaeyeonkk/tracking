@@ -1,7 +1,7 @@
 
-from flask import render_template, redirect, url_for, jsonify, Response
+from flask import render_template, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
-from datetime import datetime
+import base64
 from app import app
 
 
@@ -21,8 +21,6 @@ def home():
 @app.route("/dashboard")
 def dashboard():
     return render_template("dashboard.html")
-
-
 
 
 if __name__ == "__main__":

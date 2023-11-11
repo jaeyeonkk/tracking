@@ -1,10 +1,16 @@
 from flask import Flask
+from flask_socketio import SocketIO
 from app.config import Config
+
 
 app = Flask(__name__, static_folder="static")
 
+socketio = SocketIO(app)
+
+
 app.template_folder = "templates"
 app.secret_key = Config.SECRET_KEY
+
 
 from app.auth import auth, init_login_manager
 from app.coding_test_utils import coding_test_utils
