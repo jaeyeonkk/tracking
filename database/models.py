@@ -76,7 +76,7 @@ class FaceSubmissions(Base):
 
     sub_id = Column(Integer, primary_key=True, autoincrement=True)
     q_id = Column(Integer, ForeignKey("q_list.q_id"), nullable=False)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("face_user.id"), nullable=False)
     code_content = Column(Text, nullable=False)
     start_time = Column(TIMESTAMP, default=current_time, nullable=False)
     submission_time = Column(TIMESTAMP, default=current_time, nullable=False)

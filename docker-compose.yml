@@ -12,3 +12,5 @@ services:
       DB_HOST: ${DB_HOST}
     ports:
       - "5000:5000"
+    devices:
+      #- "/dev/video0:/dev/video0"

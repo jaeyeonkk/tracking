@@ -94,34 +94,40 @@ window.onload = function() {
     modal.style.display = "block";
 }
 
+// 전역 스코프에서 함수 정의
+function isCodePresent() {
+  return $("textarea[name='code']").val().trim() !== "";
+}
 
-//     $("#submit").click(function() {
-//       if (!isCodePresent()) {
-//         alert("코드를 작성해주세요.");
-//         return;
-//       }
+$(document).ready(function() {
 
-//   // alertCounts 객체에 담긴 경고창 발생 횟수를 서버로 보낼 데이터에 추가
-//   var submissionData = {
-//     code: $("textarea[name='code']").val(),
-//     language: $("select[name='language']").val(), // 언어 선택 값을 추가
-//     face_many: alertCounts.faceMany,
-//     face_empty: alertCounts.faceEmpty,
-//     face_change: alertCounts.faceChange,
-//     head_rotation: alertCounts.headRotation
-//   };
+     $("#submit").click(function() {
+         if (!isCodePresent()) {
+         alert("코드를 작성해주세요.");
+         return;
+       }
 
-//   $.ajax({
-//     type: "POST",
-//     url: "/submit",
-//     data: submissionData,
-//     success: function(result) {
-//       $("#grade-box").html("<pre>" + result + "</pre>");
-//       $("#grade-box").removeClass("hidden");
-//     }
-//   });
-// });
+   // alertCounts 객체에 담긴 경고창 발생 횟수를 서버로 보낼 데이터에 추가
+   var submissionData = {
+     code: $("textarea[name='code']").val(),
+     language: $("select[name='language']").val(), // 언어 선택 값을 추가
+     face_many: alertCounts.faceMany,
+     face_empty: alertCounts.faceEmpty,
+     face_change: alertCounts.faceChange,
+     head_rotation: alertCounts.headRotation
+   };
 
+   $.ajax({
+     type: "POST",
+     url: "/submit",
+     data: submissionData,
+     success: function(result) {
+       $("#grade-box").html("<pre>" + result + "</pre>");
+       $("#grade-box").removeClass("hidden");
+     }
+   });
+ });
+});
 
 const header = document.querySelector("header");
 

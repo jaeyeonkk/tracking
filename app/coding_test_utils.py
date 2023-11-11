@@ -1,9 +1,8 @@
 # import pytz
-
-# from datetime import datetime
+import datetime
 
 from flask import Blueprint, render_template, session, request, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from sqlalchemy import func
 
@@ -19,7 +18,7 @@ from app.csrf_protection import csrf
 from app.forms import AcceptForm
 
 from database.database import get_db_connection
-from database.models import QList
+from database.models import QList, FaceSubmissions
 
 
 coding_test_utils = Blueprint("coding_test_utils", __name__)
@@ -119,6 +118,32 @@ def submit():
         session["is_correct"] = True
     else:
         session["is_correct"] = False
+
+    # JavaScript에서 전송된 추가 데이터를 받음
+    face_many = request.form.get("face_many", 0, type=int)
+    face_empty = request.form.get("face_empty", 0, type=int)
+    face_change = request.form.get("face_change", 0, type=int)
+    head_rotation = request.form.get("head_rotation", 0, type=int)
+
+    # FaceSubmissions 객체 생성
+    new_submission = FaceSubmissions(
+        q_id=session["q_id"],
+        user_id=current_user.get_id(),
+        code_content=code,
+        start_time=session.get("start_time", datetime.datetime.now()),
+        submission_time=datetime.datetime.now(),
+        is_correct=session.get("is_correct", False),
+        compile_result=output_str,
+        language=language,
+        face_many=face_many,
+        face_empty=face_empty,
+        face_change=face_change,
+        head_rotation=head_rotation
+    )
+
+    # 데이터베이스에 저장
+    conn.add(new_submission)
+    conn.commit()
 
     conn.close()
 
