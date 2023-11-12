@@ -4,58 +4,131 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 
-
-.logo {
-    color: #fff;
-    font-weight: 700;
-    font-size: 35px;
-    text-decoration: none;
-    font-family: 'Permanent Marker', sans-serif;   
+* {
+  box-sizing: border-box;
 }
 
-*{
-    background: url(../images/main_back.png);
+body {
+  background-color: #97a9c9;
+  margin: 0; 
+}
+
+section.accept_cam {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-size: contain;
 }
 
 .center-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .wrapper {
-    margin-top: 40px;
-    width: 500px;
-    padding: 75px;
-    border: 2px solid #f0f0f0;  
-    border-radius: 10px;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+  width: 80%;
+  height: 96%;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
 }
 
-
-.wrapper h1 {
-    font-size: 35px;
-    font-weight: bold;
-    margin-bottom: 60px;
-    margin-top: -20px;
-    text-align: center;
-    color: #fff;
-}
-
-.wrapper .input-field {
-    opacity: 0;
-    z-index: -999;
-    position: absolute;
-
+h1 {
+  font-size: 33px;
+  font-weight: bolder;
+  margin-bottom: 22px;
+  margin-left: 170px;
+  color: #000000;
+  font-family: 'Dosis', sans-serif;
 }
 
 p{
-    color: #fff;
-    font-weight: bolder;
+  font-size: 23px;
+  font-weight: bolder;
+  margin-bottom: 20px;
+  color: #000000;
+  font-family: 'Dosis', sans-serif;
 }
+
+#finalAgreeBtn {
+  padding: 10px 20px;
+  border: 2px solid #007bff;
+  border-radius: 50px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+  margin-left: 480px;
+  margin-top: 1px;
+}
+
+#finalAgreeBtn:hover:enabled {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  color: #fff;
+}
+
+#finalAgreeBtn:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* iframe 부분 css*/
+.iframe-container {
+  width: 100%; 
+  height: 150px;
+  border: 2px solid #ccc; 
+  
+}
+
+
+.iframe-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+
+
+label {
+  display: flex;
+  justify-content: flex-end; /* 라벨을 오른쪽으로 정렬 */
+  margin-top: 5px;
+}
+
+label input[type="checkbox"] {
+  margin-left: 8px; /* 체크 박스 간의 여백 추가 */
+}
+
+label #webcamAgree,
+label #infoAgree {
+  font-size: 16px;
+  color: #333;
+  margin-right: 8px; /* 텍스트의 오른쪽 여백 추가 */
+}
+
+input[type="checkbox"]:checked + label #webcamAgree,
+input[type="checkbox"]:checked + label #infoAgree {
+  font-weight: bold;
+  color: #007bff;
+}
+
 

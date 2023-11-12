@@ -1,8 +1,11 @@
-<!DOCTYPE html>
+
 <html>
+  <head>
+    <meta charset="uft-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title>face pse main page</title>
 
     <!--- cutom css line -->
-    <!-- <link rel="stylesheet" type="text/css" href="../css/accept_cam.css"> -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/accept_cam.css') }}">
 
     <!--- box icons link -->
@@ -15,61 +18,71 @@
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 
-
-<head>
-    <title>웹 캠 액세스 동의</title>
 </head>
 
-<section class="acceptcam" id="acceptcam">
-    <header>
-        <a href="/main" class="logo"><i class='bx bx-arrow-back'></i> 뒤로</a>
-    </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹 캠 동의 페이지</title>
+</head>
+
 <body>
-    <div class="center-container">
-        <div class="wrapper">
-          <textarea class="input-field"></textarea>
 
-    <h1>웹 캠 액세스 동의</h1>
-    <p><strong>목적:</strong> 이 웹 사이트는 웹 캠을 사용하여 [목적을 설명]을 위한 정보를 수집합니다. 예를 들어, 이 정보는 [목적에 대한 예]에 사용됩니다.</p>
-    <p><strong>수집 정보:</strong> 웹 캠을 통해 수집되는 정보는 [어떤 정보가 수집되는지 설명]입니다.</p>
-    <p><strong>보호:</strong> 수집된 정보는 [보호 방법 설명]으로 보호됩니다.</p>
-    <p>웹 캠 액세스를 허용하려면 아래 동의 체크 박스를 선택하세요:</p>
+    <section class="accept_cam" id="accept_cam">
+        <div class="center-container">
+            <div class="wrapper">
 
-    <label for="consentCheckbox">
-        <input type="checkbox" id="consentCheckbox"> 웹 캠 액세스에 동의합니다.
-    </label>
 
-    <form method="post">
-        {{ form.csrf_token }}
-        <button id="consentButton" disabled>동의</button>
-    </form>
-    <script>
-        const consentCheckbox = document.getElementById("consentCheckbox");
-        const consentButton = document.getElementById("consentButton");
-        const q_id = {{ q_id }};
-    
-        consentCheckbox.addEventListener("change", () => {
-            consentButton.disabled = !consentCheckbox.checked;
-        });
-    
-        consentButton.addEventListener("click", async () => {
-            const nameInput = document.querySelector("input[name='name']");
-            const name = nameInput.value;
-    
-            if (name.trim() === "") {
-                // 이름이 입력되지 않은 경우 팝업 표시
-                alert("이름을 입력해주세요.");
-                return;
+    <div>
+        <h1>웹 캠 엑세스 동의</h1>
+
+        <div>
+            <p>✔️이용약관</p>
+            <div class="iframe-container">
+                <iframe src="{{ url_for('iframe') }}"></iframe>
+            </div>
+
+            
+        </div>
+
+        <label><input type="checkbox" id="webcamAgree"> 이용약관 동의</label>
+
+        <div>
+            <p>✔️개인정보 이용 동의</p>
+            <div class="iframe-container">
+                <iframe src="{{ url_for('iiframe') }}"></iframe>
+            </div>
+
+         
+        </div>
+        <label><input type="checkbox" id="infoAgree"> 개인정보 이용 동의</label><br>
+
+        <button id="finalAgreeBtn" disabled>동의</button>
+
+        <script>
+            const webcamCheckbox = document.getElementById('webcamAgree');
+            const infoCheckbox = document.getElementById('infoAgree');
+            const finalAgreeBtn = document.getElementById('finalAgreeBtn');
+            const q_id = {{ q_id }};
+
+            webcamCheckbox.addEventListener('change', checkFinalAgree);
+            infoCheckbox.addEventListener('change', checkFinalAgree);
+
+            function checkFinalAgree() {
+                if (webcamCheckbox.checked && infoCheckbox.checked) {
+                    finalAgreeBtn.removeAttribute('disabled');
+                } else {
+                    finalAgreeBtn.setAttribute('disabled', 'disabled');
+                }
             }
-    
-            try {
+
+            finalAgreeBtn.addEventListener('click', async () => {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 window.location.href = `/test/${q_id}`;
-            } catch (error) {
-                console.error("웹 캠 액세스 거부 또는 오류:", error);
-            }
-        });
-    </script>
-    
+            });
+        </script>
+    </div>
+</div>
 </body>
+</section>
 </html>

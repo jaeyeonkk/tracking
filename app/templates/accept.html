@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사용자 동의 페이지</title>
+</head>
+<body>
+
+<h1>약관 동의</h1>
+
+<form id="agreementForm">
+  <label>
+    <input type="checkbox" id="termsCheckbox1" class="termsCheckbox"> 이용 약관 1에 동의합니다.
+  </label>
+  <br>
+  <label>
+    <input type="checkbox" id="termsCheckbox2" class="termsCheckbox"> 이용 약관 2에 동의합니다.
+  </label>
+  <br>
+  <!-- 필요한 만큼 약관 체크박스를 추가할 수 있습니다. -->
+
+  <br>
+  <button type="button" id="agreeButton" disabled>동의</button>
+</form>
+
+<script>
+  // 모든 약관에 대한 체크박스들을 가져옵니다.
+  const checkboxes = document.querySelectorAll('.termsCheckbox');
+
+  // 동의 버튼을 가져옵니다.
+  const agreeButton = document.getElementById('agreeButton');
+
+  // 모든 체크박스에 이벤트 리스너를 추가합니다.
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', updateAgreeButtonStatus);
+  });
+
+  // 동의 버튼의 활성화 상태를 업데이트합니다.
+  function updateAgreeButtonStatus() {
+    const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+    agreeButton.disabled = !allChecked;
+  }
+
+  // 동의 버튼 클릭 시 다음 페이지로 이동합니다.
+  agreeButton.addEventListener('click', () => {
+    alert('동의되었습니다. 다음 페이지로 이동합니다.');
+    // 여기에 실제로 다음 페이지로 이동하는 코드를 추가할 수 있습니다.
+  });
+</script>
+
+</body>
+</html>

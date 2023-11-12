@@ -12,6 +12,16 @@ def not_logged_home():
     return render_template("main.html")
 
 
+@app.route('/iframe')
+def iframe():
+    return render_template('iframe.html')
+
+
+@app.route('/iiframe')
+def iiframe():
+    return render_template('iiframe.html')
+
+
 @app.route("/main")
 @login_required
 def home():
