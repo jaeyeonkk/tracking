@@ -135,6 +135,15 @@ $(document).ready(function() {
        });
    });
 
+   $.ajax({
+     type: "POST",
+     url: "/submit",
+     data: submissionData,
+     success: function(result) {
+       $("#grade-box").html("<pre>" + result + "</pre>");
+       $("#grade-box").removeClass("hidden");
+     }
+   });
 
 const header = document.querySelector("header");
 

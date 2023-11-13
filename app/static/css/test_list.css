@@ -31,7 +31,8 @@
 
 body{
     font-family: 'Noto Sans KR', sans-serif;
-    background: url(../images/dash_back.png);
+    background-color: #dbe3ff;
+    /*background: url(../images/dash_back.png);*/
     background-attachment: fixed; 
     color: var(--text-color);
   
@@ -99,6 +100,7 @@ h3 {
     font-size: 40px;
     margin-left: 655px;
     margin-bottom: 15px;
+    color: #000000;
   }
 
   
@@ -112,29 +114,33 @@ h3 {
     border-collapse: collapse;
     font-weight: bolder;
     margin-top: 30px;
+    color: #000000;
   }
   
   .board-table th, .board-table td {
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid #000000;
     padding: 8px;
     text-align: left;
     line-height: 2.5;
+    color: #000000;
   }
 
 
   
   .th-num {
     width: 10%;
+    color: #000000;
    
   }
   
   .th-title {
     width: 90%;
+    color: #000000;
   }
   
   .board-link {
     text-decoration: none;
-    color: #ffffff;
+    color: #000000;
   }
   
   .board-link:hover {
@@ -143,7 +149,7 @@ h3 {
   
 
   .board-table thead th {
-    border-top: 1px solid #ffffff;
+    border-top: 1px solid #000000;
   }
 
 
@@ -158,6 +164,7 @@ h3 {
     margin-top: 20px;
     margin-bottom: 20px;
     font-weight: bolder;
+    color: #000000;
   }
   
 

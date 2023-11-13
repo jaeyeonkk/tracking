@@ -4,9 +4,8 @@ import py_compile
 
 
 def c_compile_code(code):
-    file = open("user_code.c", "w")
-    file.write(code)
-    file.close()
+    with open("user_code.c", "w") as file:
+        file.write(code)
 
     # 컴파일 명령어
     compile_command = "gcc -o executable user_code.c"
@@ -25,16 +24,17 @@ def c_compile_code(code):
     else:
         output_str = result.stderr.decode("utf-8")
 
-    os.remove("user_code.c")  # user_code.c 파일 삭제
-    os.remove("executable")  # executable 파일 삭제
+    if os.path.exists("user_code.c"):
+        os.remove("user_code.c")
+    if os.path.exists("executable"):
+        os.remove("executable")
 
     return output_str
 
 
 def cpp_compile_code(code):
-    file = open("user_code.cpp", "w")
-    file.write(code)
-    file.close()
+    with open("user_code.cpp", "w") as file:
+        file.write(code)
 
     # 컴파일 명령어
     compile_command = "g++ -o executable user_code.cpp"
@@ -53,16 +53,17 @@ def cpp_compile_code(code):
     else:
         output_str = result.stderr.decode("utf-8")
 
-    os.remove("user_code.cpp")  # user_code.cpp 파일 삭제
-    os.remove("executable")
+    if os.path.exists("user_code.cpp"):
+        os.remove("user_code.cpp")
+    if os.path.exists("executable"):
+        os.remove("executable")
 
     return output_str
 
 
 def python_run_code(code):
-    file = open("user_code.py", "w")
-    file.write(code)
-    file.close()
+    with open("user_code.py", "w") as file:
+        file.write(code)
 
     try:
         py_compile.compile("user_code.py", doraise=True)
@@ -77,7 +78,8 @@ def python_run_code(code):
     except py_compile.PyCompileError as e:
         output_str = str(e)
 
-    os.remove("user_code.py")  # user_code.py 파일 삭제
+    if os.path.exists("user_code.py"):
+        os.remove("user_code.py")
 
     return output_str
 
@@ -121,9 +123,11 @@ def java_compile_run_code(code):
     else:
         output_str = compile_result.stderr.decode("utf-8")
 
-    os.remove(file_path)  # .java 파일 삭제
-    if os.path.exists(f"{class_name}.class"):
-        os.remove(f"{class_name}.class")  # 컴파일된 클래스 파일 삭제
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    class_file = f"{class_name}.class"
+    if os.path.exists(class_file):
+        os.remove(class_file)
 
     return output_str
 
