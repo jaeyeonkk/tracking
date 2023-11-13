@@ -1,11 +1,8 @@
 from flask import Flask
-from flask_socketio import SocketIO
 from app.config import Config
 
 
 app = Flask(__name__, static_folder="static")
-
-socketio = SocketIO(app)
 
 
 app.template_folder = "templates"
@@ -25,7 +22,6 @@ app.register_blueprint(auth)
 app.register_blueprint(coding_test_utils)
 app.register_blueprint(coding_test_tracking)
 app.register_blueprint(dashboard)
-
 
 init_login_manager(app)
 init_csrf(app)
