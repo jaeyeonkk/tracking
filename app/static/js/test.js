@@ -102,11 +102,12 @@ function isCodePresent() {
 $(document).ready(function() {
 
      $("#submit").click(function() {
-         if (!isCodePresent()) {
+       if (!isCodePresent()) {
          alert("코드를 작성해주세요.");
          return;
        }
 
+    var currentTime = new Date().toISOString();
    // alertCounts 객체에 담긴 경고창 발생 횟수를 서버로 보낼 데이터에 추가
    var submissionData = {
      code: $("textarea[name='code']").val(),
@@ -114,7 +115,8 @@ $(document).ready(function() {
      face_many: alertCounts.faceMany,
      face_empty: alertCounts.faceEmpty,
      face_change: alertCounts.faceChange,
-     head_rotation: alertCounts.headRotation
+     head_rotation: alertCounts.headRotation,
+     submission_time: currentTime
    };
 
    $.ajax({
@@ -126,8 +128,22 @@ $(document).ready(function() {
        $("#grade-box").removeClass("hidden");
      }
    });
- });
-});
+           // 버튼을 비활성화하고 스타일을 변경합니다.
+           $(this).prop('disabled', true);
+           $(this).css('background-color', '#ccc');
+           $(this).css('cursor', 'default');
+       });
+   });
+
+   $.ajax({
+     type: "POST",
+     url: "/submit",
+     data: submissionData,
+     success: function(result) {
+       $("#grade-box").html("<pre>" + result + "</pre>");
+       $("#grade-box").removeClass("hidden");
+     }
+   });
 
 const header = document.querySelector("header");
 

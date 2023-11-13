@@ -1,8 +1,9 @@
 # import pytz
 import datetime
 
+from datetime import datetime
 from flask import Blueprint, render_template, session, request, redirect, url_for
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 
 from sqlalchemy import func
 
@@ -18,7 +19,7 @@ from app.csrf_protection import csrf
 from app.forms import AcceptForm
 
 from database.database import get_db_connection
-from database.models import QList, FaceSubmissions
+from database.models import FaceSubmissions, QList
 
 
 coding_test_utils = Blueprint("coding_test_utils", __name__)
@@ -125,13 +126,17 @@ def submit():
     face_change = request.form.get("face_change", 0, type=int)
     head_rotation = request.form.get("head_rotation", 0, type=int)
 
+    # JavaScript에서 보낸 현재 시간을 받아옴
+    submission_time_str = request.form.get("submission_time")
+    print("Submission time from client:", submission_time_str)
+
     # FaceSubmissions 객체 생성
     new_submission = FaceSubmissions(
         q_id=session["q_id"],
         user_id=current_user.get_id(),
         code_content=code,
-        start_time=session.get("start_time", datetime.datetime.now()),
-        submission_time=datetime.datetime.now(),
+        start_time=session.get("start_time", datetime.now()),
+        submission_time=submission_time_str,
         is_correct=session.get("is_correct", False),
         compile_result=output_str,
         language=language,
@@ -144,7 +149,6 @@ def submit():
     # 데이터베이스에 저장
     conn.add(new_submission)
     conn.commit()
-
     conn.close()
 
     return result  # 채점 결과를 반환
