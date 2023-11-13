@@ -135,16 +135,6 @@ $(document).ready(function() {
        });
    });
 
-   $.ajax({
-     type: "POST",
-     url: "/submit",
-     data: submissionData,
-     success: function(result) {
-       $("#grade-box").html("<pre>" + result + "</pre>");
-       $("#grade-box").removeClass("hidden");
-     }
-   });
-
 const header = document.querySelector("header");
 
 
@@ -153,30 +143,27 @@ window.addEventListener("scroll", function() {
 });
 
 $(document).ready(function() {
-  var isCodeExecuted = false; // 코드가 실행되었는지 확인하는 flag
-
-  function isCodePresent() {
-    return $("textarea[name='code']").val().trim() !== "";
-  }
-
   $("form").submit(function(e) {
-    e.preventDefault();
+      e.preventDefault();  // 폼의 기본 제출 동작을 중단
 
-    // 코드가 작성되었는지 확인
-    if (!isCodePresent()) {
-      alert("코드를 작성해주세요.");
-      return;
-    }
+      var codeData = {
+          code: $("textarea[name='code']").val(),
+          language: $("select[name='language']").val()
+      };
 
-    $.ajax({
-      type: "POST",
-      url: "/compile",
-      data: $(this).serialize(),
-      success: function(result) {
-        $("#result").html("<pre>" + result + "</pre>");
-        isCodeExecuted = true; // 코드가 실행된 후 flag를 true로 설정
-      }
-    });
+      $.ajax({
+          type: "POST",
+          url: "/compile",  // 서버 측 컴파일 경로
+          data: codeData,
+          success: function(result) {
+              // 컴파일 결과를 result 영역에 표시
+              $("#result").html("<pre>" + result + "</pre>");
+          },
+          error: function(error) {
+              // 오류 처리
+              console.log(error);
+          }
+      });
   });
 
   
