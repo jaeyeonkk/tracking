@@ -20,16 +20,28 @@ span.onclick = function() {
     modal.style.display = "none";
 }
 
+// 트래킹 시작 시간을 전역 변수로 저장
+var trackingStartTime = null;
+
+// 한국 시간대로 시간을 조정하는 함수
+function getKoreanTime() {
+  var now = new Date();
+  var timeOffsetInMS = now.getTimezoneOffset() * 60000;
+  now.setTime(now.getTime() + timeOffsetInMS + (9 * 3600 * 1000)); // UTC+9
+  return now.toISOString();
+}
 
 // 트래킹 시작 버튼을 클릭하면 트래킹 함수를 호출
 btn.onclick = function() {
     modal.style.display = "none";
     startTracking();
+    trackingStartTime = getKoreanTime(); // 시작 시간을 한국 시간으로 설정
 }
 
 
 function startTracking() {
     // 1초마다 얼굴 상태 확인
+    trackingStartTime = getKoreanTime();
     setInterval(checkFaceCount, 1000);
 }
 
@@ -107,7 +119,7 @@ $(document).ready(function() {
          return;
        }
 
-    var currentTime = new Date().toISOString();
+   var submissionTime = getKoreanTime();
    // alertCounts 객체에 담긴 경고창 발생 횟수를 서버로 보낼 데이터에 추가
    var submissionData = {
      code: $("textarea[name='code']").val(),
@@ -116,7 +128,8 @@ $(document).ready(function() {
      face_empty: alertCounts.faceEmpty,
      face_change: alertCounts.faceChange,
      head_rotation: alertCounts.headRotation,
-     submission_time: currentTime
+     start_time: trackingStartTime,
+     submission_time: submissionTime
    };
 
    $.ajax({
@@ -164,27 +177,6 @@ $(document).ready(function() {
               console.log(error);
           }
       });
-  });
-
-  
-  $("#submit").click(function() {
-    // 코드가 작성되었는지 확인
-    if (!isCodePresent()) {
-      alert("코드를 작성해주세요.");
-      return;
-    }
-    $.ajax({
-      type: "POST",
-      url: "/submit",
-      data: {
-        code: $("textarea[name='code']").val(),
-        language: $("select[name='language']").val() // 언어 선택 값을 추가
-      },
-      success: function(result) {
-        $("#grade-box").html("<pre>" + result + "</pre>");
-        $("#grade-box").removeClass("hidden"); // 박스를 보이도록 클래스 제거
-      }
-    });
   });
 
 

@@ -1,7 +1,8 @@
 # import pytz
 import datetime
+import dateutil.parser
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Blueprint, render_template, session, request, redirect, url_for
 from flask_login import current_user, login_required
 
@@ -27,7 +28,19 @@ coding_test_utils = Blueprint("coding_test_utils", __name__)
 
 PER_PAGE = 10
 
+def convert_to_kst(utc_time_str):
+    if utc_time_str is None:
+        # utc_time_str이 None일 경우 현재 시간을 사용하거나 오류를 반환
+        return datetime.now()
 
+    try:
+        utc_time = datetime.strptime(utc_time_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+        kst_time = utc_time + timedelta(hours=9)
+        return kst_time
+    except ValueError:
+        # 잘못된 시간 형식일 경우 처리
+        return datetime.now()
+    
 @coding_test_utils.route("/test_list")
 @login_required
 def test_list():
@@ -126,17 +139,21 @@ def submit():
     face_change = request.form.get("face_change", 0, type=int)
     head_rotation = request.form.get("head_rotation", 0, type=int)
 
-    # JavaScript에서 보낸 현재 시간을 받아옴
+    # 클라이언트로부터 받은 시간 데이터를 파싱
+    start_time_str = request.form.get("start_time")
     submission_time_str = request.form.get("submission_time")
-    print("Submission time from client:", submission_time_str)
+
+    # UTC 시간을 KST로 변환
+    start_time = convert_to_kst(start_time_str)
+    submission_time = convert_to_kst(submission_time_str)
 
     # FaceSubmissions 객체 생성
     new_submission = FaceSubmissions(
         q_id=session["q_id"],
         user_id=current_user.get_id(),
         code_content=code,
-        start_time=session.get("start_time", datetime.now()),
-        submission_time=submission_time_str,
+        start_time=start_time,
+        submission_time=submission_time,
         is_correct=session.get("is_correct", False),
         compile_result=output_str,
         language=language,
