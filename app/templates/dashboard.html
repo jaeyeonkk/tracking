@@ -68,9 +68,8 @@
           <li class="problem-item">
               <h3>{{ i[0] }}. {{ i[2] }}</h3>
               <div class="horizontal-line"></div>
-              <div class="additional-text">코딩테스트 문제에 대한 간단한 설명.</div>
+              <div class="additional-text">{{ i['short_description'] }}</div>
               <button class="button-style" onclick="solveProblem(1)">결과 보기</button>
-             
           {% endfor %}
       </ul>
     </div>

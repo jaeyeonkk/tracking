@@ -30,6 +30,7 @@ class QList(Base):
     p_answer_code = Column(Text, nullable=False)
     j_answer_code = Column(Text, nullable=False)
     answer = Column(Text, nullable=False)
+    short_description = Column(Text, nullable=False)
 
 
 class FaceUser(Base):
