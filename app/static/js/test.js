@@ -35,7 +35,6 @@ function getKoreanTime() {
 btn.onclick = function() {
     modal.style.display = "none";
     startTracking();
-    trackingStartTime = getKoreanTime(); // 시작 시간을 한국 시간으로 설정
 }
 
 
@@ -104,6 +103,7 @@ setInterval(checkFaceCount, 1000);  // Check every 1000 milliseconds (1 second)
 // 페이지 로드 시 모달창 표시
 window.onload = function() {
     modal.style.display = "block";
+    trackingStartTime = getKoreanTime(); // 페이지가 로드되자마자 시작 시간을 기록
 }
 
 // 전역 스코프에서 함수 정의
