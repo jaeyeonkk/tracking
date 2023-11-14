@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Dosis', sans-serif;
+    list-style: none;
+    text-decoration: none;
+    scroll-behavior: smooth;
+    border: none;
+    outline: none;
+}
+
+:root{
+    --bg-color: #191919;
+    --secont-bg-color: #101010;
+    --main-color: #e9204f;
+    --text-color: #fff;
+    --second-color: #e4e4e4;
+    --other-color: #c6cd8f;
+
+    --h1-font: 7rem;
+    --h2-font: 3.5rem;
+    --p-font: 1.1rem;
+
+}
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: rgb(167, 206, 255);
+    background-attachment: fixed; 
+    color: var(--text-color);
+  
+}
+
+.navlist a{
+    color: #ffffff;
+    font-size: var(--p-font);
+    margin: 0 30px;
+    font-weight: bold; 
+    transition: all ease .40s; 
+}
+
+.navlist a:hover{
+    color: #a570ff;
+}
+
+  .navlist {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%;
+  }
+  
+
+  .user-name {
+    font-weight: bold;
+  }
+  
+
+header{
+    
+    color: white; 
+    text-align: center; 
+    width: 100%;
+    height: 50px; 
+    background-color: rgb(29, 29, 29); 
+  
+}
+
+.logo, .user-name {
+    margin-right: 1000px !important;
+  }
+  
+  
+.logo {
+    color: #fff;
+    font-weight: 700;
+    font-size: 30px !important;
+    text-decoration: none;
+    margin-right: 100px;
+    font-family: 'Permanent Marker', sans-serif;
+  
+}
+
+
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    
+  }
+
+  .section {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* 모달창 스타일 */
+  .modal {
+          display: none; 
+          position: fixed; 
+          z-index: 1;
+          left: 0;
+          top: 0;
+          width: 65%; 
+          height: 300px; 
+          overflow: auto; 
+          padding-top: 100px;
+          margin-left: 300px;
+      }
+
+      /* 모달창 콘텐츠 스타일 */
+      .modal-content {
+          background-color: #ffffff;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #888;
+          width: 80%;
+          margin-bottom: 50px;
+          position: relative; /* 추가된 부분 */
+          padding-bottom: 70px;
+          
+      }
+
+      /* 모달창 닫기 버튼 스타일 */
+      .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+      }
+
+    #startButton {
+      background-color: #1385ff; 
+      color: #fff;
+      border: none;
+      padding: 8px 15px; 
+      font-size: 17px; 
+      font-weight: bold; 
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, opacity 0.3s; /* Added opacity transition */
+      position: absolute; 
+      right: 30px; 
+      animation: blink 1.2s infinite; /* Added blinking animation */
+    
+    }
+
+    #startButton:hover {
+      background-color: #0056b3; 
+      color: #fff; 
+     
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+
+    h1{
+        color: #000;
+        font-size: 35px;
+        margin-top: 5px;
+        text-align: center;
+    }
+
+    p{
+      font-size: 25px;
+      font-weight: bolder;
+      color: #000;
+    }
+
+/* 아이트래킹 카메라 조절 부분 */
+
+#draggableEyeTracking {
+    position: fixed;
+    width: 20%;
+    margin: 20px;
+    float: right;
+    top: 35px;
+    right: 20px; 
+}
+
+
+#draggableEyeTracking:active {
+    cursor: grabbing; 
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0; 
+    right: 0;
+}
+
+    
+      .button-group {
+        display: flex;
+        justify-content: space-between;
+        max-width: 300px;
+        margin: 20px auto;
+      }
+      
+      .button-group input,
+      .button-group button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-right: 10px; /* 여백 추가 */
+      }
+      
+      #compile,
+      #submit {
+        background: #1385ff;
+        color: #fff;
+        border: 3px solid #1385ff; /* Added border style */
+        position: relative;
+        height: 40px;
+        font-size: 1em;
+        padding: 0 2em;
+        cursor: pointer;
+        transition: 800ms ease all;
+        outline: none;
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+      
+      #compile:hover,
+      #submit:hover {
+        background: #fff;
+        color: #000;
+      }
+      
+      #compile:before,
+      #submit:before,
+      #compile:after,
+      #submit:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 2px;
+        width: 0;
+        background: #1385ff;
+        transition: 400ms ease all;
+      }
+      
+      #compile:after,
+      #submit:after {
+        right: inherit;
+        top: inherit;
+        left: 0;
+        bottom: 0;
+      }
+      
+      #compile:hover:before,
+      #compile:hover:after,
+      #submit:hover:before,
+      #submit:hover:after {
+        width: 100%;
+        transition: 800ms ease all;
+      }
+      
+      textarea[name="code"] {
+        font-size: 22px;
+      }
+      
+    
+
+      .coding {
+   
+        justify-content: center;
+        align-items: center;
+      }
+
+      #problem, .output-box, form, #result, #grade-box, #answer-box, #feedback-box {
+        text-align: center;
+      }
+   
+    
+
+    label {
+        display: inline-block; /* Change to inline-block to make it inline with the select element */
+        margin-bottom: 5px;
+        color: #000;
+        font-weight: bolder;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column; /* Change to column to stack elements vertically */
+        align-items: center; /* Center align the child elements */
+    }
+    
+    select[name="language"] {
+        font-size: 22px;
+        margin-top: 20px;
+        margin-bottom: 10px; /* Add margin to create space between select and textarea */
+    }
+    
+ 
+
+      #answer-box {
+        margin: 0 auto; /* 가운데 정렬 */
+        text-align: left; /* 안에 들어가는 내용 왼쪽 정렬 */
+        width: 50%; 
+        margin-top: 30px;
+        padding: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        width: 100%;
+        max-width: 1500px;
+        margin-bottom: 20px;
+    }
+    
+
+    #problem {
+        margin-top: 30px;
+        padding: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        width: 100%;
+        max-width: 1500px;
+    }
+    
+    .output-box {
+        margin-top: 30px;
+        padding: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        width: 100%;
+        max-width: 1500px;
+    }
+    
+    .hidden {
+        display: none;
+      }
+    
+      .ttext{
+        top: 50%;
+        left: 50%;
+        font-size: 25px; 
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #1385ff;
+      }
+    
+      .ttext2{
+        font-size: 18px; 
+        font-weight: bold;
+        margin-bottom: 15px;
+    
+      }
+
+    
+      .wrapper {
+        width: 1000px;
+        padding: 35px;
+        color: #f1f5f9;
+        border-radius: 25px; 
+        box-shadow: 1px 10px 20px rgba(0, 0, 0, 0.2); 
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+    
+      
+      .wrapper .input-field {
+        border-radius: 25px; 
+        opacity: 0;
+        z-index: -999;
+        position: absolute;
+        color: #fff;
+        
+      }
+      
+      .wrapper .content-box {
+        padding: 20px 20px 0;
+        border-radius: 10px;
+        border: 3px solid #3b3b3b;
+      }
+    
+      textarea::placeholder {
+        font-size: 25px;     
+        color: rgb(162, 162, 162);         
+    }
+      
