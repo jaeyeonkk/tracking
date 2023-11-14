@@ -69,7 +69,7 @@
               <h3>{{ i[0] }}. {{ i[2] }}</h3>
               <div class="horizontal-line"></div>
               <div class="additional-text">{{ i['short_description'] }}</div>
-              <button class="button-style" onclick="solveProblem(1)">결과 보기</button>
+              <a href="{{ url_for('dashboard.dashboard_detail', q_id=i.q_id) }}" class="button-style">결과 보기</a>
           {% endfor %}
       </ul>
     </div>
