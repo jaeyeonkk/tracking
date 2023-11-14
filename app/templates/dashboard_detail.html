@@ -57,7 +57,7 @@
 <div class="card-container">
   <!-- Student Card 1 -->
   {% for submission, username, (minutes, seconds) in submissions %}
-  <div class="card">
+  <div class="card" onclick="viewSubmissionDetails({{ submission.sub_id }})">
     <div class="card-image"></div> <!-- Placeholder for the image -->
     <div>
       <div class="card-header">이름: {{ username }}</div>
@@ -70,6 +70,10 @@
   </div>
 </div>
 {% endfor %}
-
+<script>
+    function viewSubmissionDetails(subId) {
+      window.location.href = '/submission_detail/' + subId;  // 새로운 라우트로 이동
+    }
+    </script>
 </body>
 </html>

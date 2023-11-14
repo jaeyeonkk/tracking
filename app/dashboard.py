@@ -69,3 +69,35 @@ def dashboard_detail(q_id):
     conn.close()
     
     return render_template("dashboard_detail.html", q_list=q_info, submissions=submissions)
+
+
+@dashboard.route("/dashboard_detail_content>")
+@login_required
+def dashboard_detail_content(sub_id):
+    conn = get_db_connection()
+
+    # sub_id에 해당하는 상세 정보 검색
+    submission = conn.query(FaceSubmissions).filter(FaceSubmissions.sub_id == sub_id).first()
+
+    # 추가적으로 필요한 정보를 여기서 검색 (예: 관련된 사용자 정보 등)
+
+    conn.close()
+
+    # 세부 정보를 표시하는 새로운 HTML 페이지로 데이터 전달
+    return render_template("submission_detail_content.html", submission=submission)
+
+
+@dashboard.route("/submission_detail/<int:sub_id>")
+@login_required
+def submission_detail(sub_id):
+    conn = get_db_connection()
+
+    # sub_id에 해당하는 상세 정보 검색
+    submission = conn.query(FaceSubmissions).filter(FaceSubmissions.sub_id == sub_id).first()
+
+    # 추가적으로 필요한 정보를 여기서 검색 (예: 관련된 사용자 정보 등)
+
+    conn.close()
+
+    # 세부 정보를 표시하는 새로운 HTML 페이지로 데이터 전달
+    return render_template("submission_detail.html", submission=submission)
