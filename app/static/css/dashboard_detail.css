@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Dosis', sans-serif;
+    list-style: none;
+    text-decoration: none;
+    scroll-behavior: smooth;
+    border: none;
+    outline: none;
+}
+
+:root{
+    --bg-color: #191919;
+    --secont-bg-color: #101010;
+    --main-color: #e9204f;
+    --text-color: #fff;
+    --second-color: #e4e4e4;
+    --other-color: #c6cd8f;
+
+    --h1-font: 7rem;
+    --h2-font: 3.5rem;
+    --p-font: 1.1rem;
+
+}
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color:#dbe3ff;
+    background-attachment: fixed; 
+    color: var(--text-color);
+  
+}
+.navlist {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%;
+  }
+  
+
+  .user-name {
+    font-weight: bold;
+  }
+  
+
+header{
+   
+    color: white; 
+    text-align: center; 
+    width: 100%;
+    height: 45px; 
+    background-color: rgb(29, 29, 29); 
+}
+
+section{
+    margin-top: 20px;
+    margin-bottom: 35px;
+}
+
+.logo, .user-name {
+    margin-right: 1000px !important;
+  }
+  
+  
+.logo {
+    color: #fff;
+    font-weight: 700;
+    font-size: 30px !important;
+    text-decoration: none;
+    margin-right: 100px;
+    font-family: 'Permanent Marker', sans-serif;
+  
+}
+
+h1{
+    margin-top: 30px;
+    font-size: 40px;
+    margin-bottom: 30px;
+    color: #060606;
+    text-align: center;
+    font-family: 'Permanent Marker', sans-serif;
+    
+    
+    
+}
+   
+
+.navlist {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+
+.navlist a{
+    color: #ffffff;
+    font-size: var(--p-font);
+    margin: 0 30px;
+    font-weight: bold; 
+    transition: all ease .40s; 
+}
+
+.navlist a:hover{
+    color: #a570ff;
+}
+
+
+.user-name {
+    font-weight: bold;
+  }
+
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer; 
+   
+    
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 400px; /* Fixed width for the cards */
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s; /* Add smooth transition for transform effect */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Scale up the card on hover */
+}
+
+.card-image {
+    width: 90px;
+    height: 90px;
+    background-image: url(../images/id.jpg); 
+    background-size: cover; 
+    border-radius: 50%;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+
+.card-header {
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.card-info {
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.correct {
+    color: green !important;
+    font-weight: bolder;
+    font-family: 'Noto Sans KR', sans-serif;
+    
+}
+
+.incorrect {
+    color: red !important;
+    font-weight: bolder;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.answer {
+    color: black; 
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.card-info {
+    font-size: 16px;
+    margin-bottom: 10px; 
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+.card-info:nth-child(odd) {
+    color: rgb(0, 102, 245);
+    font-weight: bold;
+}
+
+
+.card-info:nth-child(even) {
+    color: black;
+    font-weight: bold;
+}
+

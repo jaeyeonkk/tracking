@@ -1,59 +1,43 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard - {{ q_list.q_name }}</title>
-<style>
-  body {
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-  }
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-  }
-  .card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    width: 400px; /* Fixed width for the cards */
-    display: flex;
-    align-items: center;
-  }
-  .card-image {
-    width: 80px; /* Fixed width for the image */
-    height: 80px; /* Fixed height for the image */
-    background-color: #ccc; /* Placeholder color for the image */
-    border-radius: 60%; /* Making the image round */
-    margin-left: 25px;
-    margin-right: 25px;
-  }
-  .card-header {
-    color: #333;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  .card-info {
-    font-size: 16px;
-    margin-bottom: 3px;
-  }
-  .correct {
-    color: green;
-  }
-  .incorrect {
-    color: red;
-  }
-</style>
-</head>
-<body>
+<html>
+  <head>
+    <meta charset="uft-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title>face pse main page</title>
 
+    <!--- cutom css line -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard_detail.css') }}">
+
+    <!--- box icons link -->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!--- google fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+</head>
+
+<header>
+    
+  <ul class="navlist">
+    <a href="{{ url_for('home') if current_user.is_authenticated else url_for('home') }}" class="logo">FACE PSE</a>
+        
+    <li class="logout">
+      <span style="pointer-events: none; font-weight: bold;">안녕하세요, {{ current_user.username }}님!😊</span>
+      <a href="/logout">LOGOUT</a>
+  </li>
+  
+  </ul>
+
+</header>
+<title>Dashboard - {{ q_list.q_name }}</title>
+
+
+<section class="dashboard_detail" id="dashboard_detail">
+  <h1>{{ q_list.q_name }} </h1>
 <div class="card-container">
   <!-- Student Card 1 -->
   {% for submission, username, (minutes, seconds) in submissions %}
@@ -64,9 +48,11 @@
       <div class="card-info">시작 시간: {{ submission.start_time.strftime('%Y/%m/%d %H시 %M분') }}</div>
       <div class="card-info">소요 시간: {{ minutes }}분 {{ seconds }}초</div>
       {% if submission.is_correct %}
-      <div class="card-info correct">정답 여부: O</div>
+      <div class="card-info correct"><span class="answer">정답 여부: </span>정답</div>
       {% else %}
-      <div class="card-info incorrect">정답 여부: X</div>{% endif %}
+      <div class="card-info incorrect"><span class="answer">정답 여부:</span> 오답</div>
+      {% endif %}
+    
   </div>
 </div>
 {% endfor %}
@@ -76,4 +62,5 @@
     }
     </script>
 </body>
+</section>
 </html>
