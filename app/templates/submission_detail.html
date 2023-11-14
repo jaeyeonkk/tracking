@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- 헤더 정보 -->
+    <title>{{ question_name }} - {{ username }} - {{ submission.start_time.strftime('%m/%d') }}</title>
 </head>
 <body>
-  <h1>Submission Detail</h1>
   <div>
-    <p>Username: {{ submission.username }}</p>  <!-- 예시 필드 -->
-    <p>Start Time: {{ submission.start_time }}</p>
-    <!-- 추가적인 세부 정보 표시 -->
+    <p>이름: {{ username }}</p>
+    <p>시작 시간: {{ submission.start_time.strftime('%Y/%m/%d %H:%M:%S') }}</p>
+    <p>제출 시간: {{ submission.submission_time.strftime('%Y/%m/%d %H:%M:%S') }}</p>
+    <p>소요 시간: {{ time_taken[0] }}분 {{ time_taken[1] }}초</p>
+    <P>사용한 언어: {{ submission.language}}</P>
+    <P>내가 작성한 코드: {{ submission.code_content}}</P>
+    <P>컴파일 결과: {{ submission.compile_result}}</P>
+    <P>다수의 얼굴 감지: {{ submission.face_many}}</P>
+    <P>얼굴 변경 감지: {{ submission.face_change}}</P>
+    <P>자리 비움: {{ submission.face_empty}}</P>
+    <P>고개 회전: {{ submission.head_rotation}}</P>
+
   </div>
 </body>
 </html>

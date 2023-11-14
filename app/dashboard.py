@@ -71,33 +71,28 @@ def dashboard_detail(q_id):
     return render_template("dashboard_detail.html", q_list=q_info, submissions=submissions)
 
 
-@dashboard.route("/dashboard_detail_content>")
-@login_required
-def dashboard_detail_content(sub_id):
-    conn = get_db_connection()
-
-    # sub_id에 해당하는 상세 정보 검색
-    submission = conn.query(FaceSubmissions).filter(FaceSubmissions.sub_id == sub_id).first()
-
-    # 추가적으로 필요한 정보를 여기서 검색 (예: 관련된 사용자 정보 등)
-
-    conn.close()
-
-    # 세부 정보를 표시하는 새로운 HTML 페이지로 데이터 전달
-    return render_template("submission_detail_content.html", submission=submission)
-
+from datetime import datetime
 
 @dashboard.route("/submission_detail/<int:sub_id>")
 @login_required
 def submission_detail(sub_id):
     conn = get_db_connection()
 
-    # sub_id에 해당하는 상세 정보 검색
-    submission = conn.query(FaceSubmissions).filter(FaceSubmissions.sub_id == sub_id).first()
+    submission_detail = (conn.query(FaceSubmissions, FaceUser.username, QList.q_name)
+                         .join(FaceUser, FaceSubmissions.user_id == FaceUser.id)
+                         .join(QList, FaceSubmissions.q_id == QList.q_id)
+                         .filter(FaceSubmissions.sub_id == sub_id)
+                         .first())
 
-    # 추가적으로 필요한 정보를 여기서 검색 (예: 관련된 사용자 정보 등)
+    # 소요 시간 계산
+    if submission_detail.FaceSubmissions.start_time and submission_detail.FaceSubmissions.submission_time:
+        time_diff = submission_detail.FaceSubmissions.submission_time - submission_detail.FaceSubmissions.start_time
+        minutes, seconds = divmod(time_diff.total_seconds(), 60)
 
     conn.close()
 
-    # 세부 정보를 표시하는 새로운 HTML 페이지로 데이터 전달
-    return render_template("submission_detail.html", submission=submission)
+    return render_template("submission_detail.html", 
+                           submission=submission_detail.FaceSubmissions, 
+                           username=submission_detail.username, 
+                           question_name=submission_detail.q_name,
+                           time_taken=(int(minutes), int(seconds)))
