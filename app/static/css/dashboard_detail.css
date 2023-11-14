@@ -31,7 +31,7 @@
 
 body{
     font-family: 'Noto Sans KR', sans-serif;
-    background-color:#dbe3ff;
+    background-color:#e1e1e1;
     background-attachment: fixed; 
     color: var(--text-color);
   
@@ -134,14 +134,15 @@ h1{
 
 .card {
     background-color: #fff;
-    border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
-    width: 400px; /* Fixed width for the cards */
+    width: 400px;
     display: flex;
     align-items: center;
-    transition: transform 0.2s; /* Add smooth transition for transform effect */
+    transition: transform 0.2s;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
 }
+
 
 .card:hover {
     transform: scale(1.05); /* Scale up the card on hover */
