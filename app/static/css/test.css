@@ -217,6 +217,7 @@ img {
         justify-content: space-between;
         max-width: 300px;
         margin: 20px auto;
+        text-align: center;
       }
       
       .button-group input,
@@ -350,8 +351,34 @@ img {
     }
     
     .hidden {
-        display: none;
-      }
+      display: none;
+      color: #000;
+      font-weight: bolder;
+    }
+    
+    #result {
+      font-size: 18px;
+      color: rgb(0, 0, 0);
+      border: 1px solid #f8f8f8;
+      padding: 10px; 
+    }
+    
+    #grade-box,
+    #answer-box,
+    #feedback-box {
+      font-size: 20px;
+      margin-top: 15px;
+      color: rgb(0, 0, 0);
+      font-weight: bolder;
+      padding: 10px; 
+    }
+    
+    #result p {
+      color: #f8f8f8; /* 색상을 원하는 색으로 조정 */
+      font-size: 18px; /* 폰트 크기를 원하는 크기로 조정 */
+    }
+    
+      
     
       .ttext{
         top: 50%;
@@ -398,6 +425,10 @@ img {
     
       textarea::placeholder {
         font-size: 25px;     
-        color: rgb(162, 162, 162);         
+        color: rgb(255, 255, 255);         
     }
       
+
+
+
+    

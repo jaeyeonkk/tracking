@@ -134,6 +134,6 @@ def java_compile_run_code(code):
 
 def grade_code(output_str, expected_output):
     if output_str.strip() == expected_output:
-        return "정답입니다!"  # 정답인 경우
+        return "정답입니다!😊"  # 정답인 경우
     else:
         return "오답입니다! ( ✋˙࿁˙ )"  # 오답인 경우
