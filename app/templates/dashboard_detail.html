@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - {{ q_list.q_name }}</title>
+<style>
+  body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+  }
+  .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 400px; /* Fixed width for the cards */
+    display: flex;
+    align-items: center;
+  }
+  .card-image {
+    width: 80px; /* Fixed width for the image */
+    height: 80px; /* Fixed height for the image */
+    background-color: #ccc; /* Placeholder color for the image */
+    border-radius: 60%; /* Making the image round */
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+  .card-header {
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .card-info {
+    font-size: 16px;
+    margin-bottom: 3px;
+  }
+  .correct {
+    color: green;
+  }
+  .incorrect {
+    color: red;
+  }
+</style>
+</head>
+<body>
+
+<div class="card-container">
+  <!-- Student Card 1 -->
+  {% for submission, username, (minutes, seconds) in submissions %}
+  <div class="card">
+    <div class="card-image"></div> <!-- Placeholder for the image -->
+    <div>
+      <div class="card-header">이름: {{ username }}</div>
+      <div class="card-info">시작 시간: {{ submission.start_time.strftime('%Y/%m/%d %H시 %M분') }}</div>
+      <div class="card-info">소요 시간: {{ minutes }}분 {{ seconds }}초</div>
+      {% if submission.is_correct %}
+      <div class="card-info correct">정답 여부: O</div>
+      {% else %}
+      <div class="card-info incorrect">정답 여부: X</div>{% endif %}
+  </div>
+</div>
+{% endfor %}
+
+</body>
+</html>
