@@ -1,6 +1,6 @@
 # import pytz
 import datetime
-import dateutil.parser
+# import dateutil.parser
 
 from datetime import datetime, timedelta
 from flask import Blueprint, render_template, session, request, redirect, url_for
@@ -40,7 +40,8 @@ def convert_to_kst(utc_time_str):
     except ValueError:
         # 잘못된 시간 형식일 경우 처리
         return datetime.now()
-    
+
+
 @coding_test_utils.route("/test_list")
 @login_required
 def test_list():
