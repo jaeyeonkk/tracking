@@ -1,101 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ q_list.q_name }}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/codingtest.css') }}">
-  <style>
-    .container {
-      display: flex;
-      justify-content: space-around;
-      align-items: start;
-    }
 
-    .section {
-      width: 100%;
-    }
+<html>
+  <head>
+    <meta charset="uft-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title>face pse main page</title>
 
-    /* 모달창 스타일 */
-    .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 65%; 
-            height: 300px; 
-            overflow: auto; 
-            padding-top: 100px;
-            margin-left: 300px;
-        }
+    <!--- cutom css line -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/test.css') }}">
 
-        /* 모달창 콘텐츠 스타일 */
-        .modal-content {
-            background-color: #ffffff;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            margin-bottom: 50px;
-            position: relative; /* 추가된 부분 */
-            padding-bottom: 70px;
-            
-        }
+    <!--- box icons link -->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
-        /* 모달창 닫기 버튼 스타일 */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
+    <!--- google fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    <meta charset="UTF-8">
+    <title>{{ q_list.q_name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-      #startButton {
-        background-color: #1385ff; 
-        color: #fff;
-        border: none;
-        padding: 8px 15px; 
-        font-size: 17px; 
-        font-weight: bold; 
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s, opacity 0.3s; /* Added opacity transition */
-        position: absolute; 
-        right: 30px; 
-        animation: blink 1.2s infinite; /* Added blinking animation */
-      
-      }
-
-      #startButton:hover {
-        background-color: #0056b3; 
-        color: #fff; 
-       
-      }
-
-      @keyframes blink {
-        50% {
-          opacity: 0;
-        }
-      }
-
-
-      p{
-        font-size: 25px;
-        font-weight: bolder;
-      }
-
-  </style>
 </head>
+
+<header>
+    
+  <ul class="navlist">
+    <a href="{{ url_for('home') if current_user.is_authenticated else url_for('home') }}" class="logo">FACE PSE</a>
+        
+    <li class="logout">
+      <span style="pointer-events: none; font-weight: bold;">안녕하세요, {{ current_user.username }}님!😊</span>
+      <a href="/logout">LOGOUT</a>
+  </li>
+  
+  </ul>
+
+</header>
+
+<section class="codingtest" id="codingtest">
 <body>
   <!-- 트래킹을 시작하는 모달창 -->
   <div id="myModal" class="modal">
@@ -110,10 +55,10 @@
 
 <!-- 코딩 테스트 섹션 -->
 <div class="container">
-  <div class="section" id="CodingTest">
     <section class="coding">
-      <h1>[ {{ q_list.q_name }} ]</h1>
       <div class="wrapper">
+      <h1>[ {{ q_list.q_name }} ]</h1>
+      
         <div id="problem">
           <p class="ttext">문제</p>
           <p class="ttext2">{{ q_list.q_content | safe }}</p>
@@ -123,13 +68,14 @@
           <p class="ttext2">{{ q_list.ex_print | safe }}</p>
         </div>
         <form action="/compile" method="POST">
-          <label for="language">언어 선택:</label>
+         <label for="language">언어 선택:
           <select name="language">
             <option value="c">C</option>
             <option value="c++">C++</option>
             <option value="java">Java</option>
             <option value="python">Python</option>
           </select>
+        </label>
           <textarea name="code" style="margin-top: 20px;" placeholder="정답을 입력해 주세요" rows="10" cols="75"></textarea>
           <div class="button-group">
             <input type="submit" id="compile" value="실행">
@@ -153,3 +99,5 @@
     <script src="{{ url_for('static', filename='js/test.js') }}"></script>
   </body>
 </html>
+
+</section>
