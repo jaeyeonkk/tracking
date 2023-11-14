@@ -1,5 +1,6 @@
 const alertSound = document.getElementById('alertSound');
 
+var isTrackingActive = false;
 
 // 모달창 가져오기
 var modal = document.getElementById('myModal');
@@ -34,6 +35,7 @@ function getKoreanTime() {
 // 트래킹 시작 버튼을 클릭하면 트래킹 함수를 호출
 btn.onclick = function() {
     modal.style.display = "none";
+    isTrackingActive = true;
     startTracking();
     trackingStartTime = getKoreanTime();
 }
@@ -62,6 +64,9 @@ const alertCounts = {
 
 
 function checkFaceCount() {
+  if (!isTrackingActive) {
+    return;
+}
   fetch("http://127.0.0.1:5000/face_info")
   .then(response => response.json())
   .then(data => {
@@ -145,6 +150,8 @@ $(document).ready(function() {
            $(this).prop('disabled', true);
            $(this).css('background-color', '#ccc');
            $(this).css('cursor', 'default');
+
+           isTrackingActive = false;
        });
    });
 
