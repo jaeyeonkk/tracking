@@ -38,6 +38,8 @@ btn.onclick = function() {
     isTrackingActive = true;
     startTracking();
     trackingStartTime = getKoreanTime();
+    $("textarea[name='code']").prop('disabled', false); // 컴파일 작성 칸 활성화
+    $("#compile").prop('disabled', false); // 실행 버튼 활성화
 }
 
 
