@@ -48,9 +48,9 @@
       <div class="card-info">시작 시간: {{ submission.start_time.strftime('%Y/%m/%d %H시 %M분') }}</div>
       <div class="card-info">소요 시간: {{ minutes }}분 {{ seconds }}초</div>
       {% if submission.is_correct %}
-      <div class="card-info correct"><span class="answer">정답 여부: </span>정답</div>
+      <div class="card-info correct"><span class="answer">정답 여부: </span>정답😊</div>
       {% else %}
-      <div class="card-info incorrect"><span class="answer">정답 여부:</span> 오답</div>
+      <div class="card-info incorrect"><span class="answer">정답 여부:</span> 오답😭</div>
       {% endif %}
     
   </div>

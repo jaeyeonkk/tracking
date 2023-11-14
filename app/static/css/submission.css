@@ -34,8 +34,10 @@ body{
     background: url(../images/back.png);
     background-attachment: fixed; 
     color: var(--text-color);
+    
   
 }
+
 .navlist {
     list-style: none;
     padding: 0;
@@ -63,6 +65,7 @@ header{
 section{
     margin-top: 20px;
     margin-bottom: 35px;
+    
 }
 
 .logo, .user-name {
@@ -121,90 +124,115 @@ h1{
   }
 
 
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    cursor: pointer; 
-   
+  .username {
+     font-weight: bold; 
+     font-size: 20px;
+     color: #060606;
+     margin-bottom: 10px;
+     }
+
+
+     .wrapper {
+        width: 1000px;
+        padding: 35px;
+        color: #f1f5f9;
+        border-radius: 20px;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+        margin-left: 290px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+      }
     
+      .wrapper .input-field {
+        opacity: 0;
+        z-index: -999;
+        position: absolute;
+        color: #fff;
+        
+      }
+      
+      .wrapper .content-box {
+        padding: 20px 20px 0;
+        border-radius: 10px;
+        border: 3px solid #eeeeee;
+      }
+
+
+
+  .start-time {
+     color: #060606;
+    }
+
+  .submission-time { 
+    color: #060606;
+    margin-top: 15px;
+}
+  .time-taken {
+    color: #060606;
+    margin-top: 15px;
+    }
+
+  .language { 
+    color: #060606;
+    margin-top: 15px;
+    margin-bottom: 20px;
 }
 
-.card {
-    background-color: #fff;
-    border-radius: 5px;
+  .code-content { 
+    color: #060606;
+    margin-top: 15px;
+ }
+
+  .compile-result {
+    color: #060606;
+    margin-top: 15px;
+     }
+
+  .face-many { 
+    color: #060606;
+    margin-top: 15px;
+}
+  .face-change {
+    color: #060606;
+    margin-top: 15px;
+    }
+
+  .face-empty { 
+    color: #060606;
+    margin-top: 15px;
+ }
+
+  .head-rotation {
+    color: #060606;
+    margin-top: 15px;
+}
+
+.code-box, .compile-box, .face-info-box {
+    font-size: 15px;
+    border: 1px solid #ffffff;
+    border-radius: 10px; 
     padding: 10px;
-    width: 400px;
-    display: flex;
-    align-items: center;
-    transition: transform 0.2s;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
-}
-
-
-.card:hover {
-    transform: scale(1.05); /* Scale up the card on hover */
-}
-
-.card-image {
-    width: 90px;
-    height: 90px;
-    background-image: url(../images/id.jpg); 
-    background-size: cover; 
-    border-radius: 50%;
-    margin-left: 25px;
-    margin-right: 25px;
-}
-
-
-.card-header {
-    color: #333;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-family: 'Noto Sans KR', sans-serif;
-}
-
-.card-info {
-    font-size: 16px;
-    margin-bottom: 2px;
-}
-
-.correct {
-    color: green !important;
-    font-weight: bolder;
-    font-family: 'Noto Sans KR', sans-serif;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding-bottom: 20px;
+    white-space: pre-line;
     
 }
 
-.incorrect {
-    color: red !important;
+p{
+    
+    color: #060606;
     font-weight: bolder;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
 }
 
-.answer {
-    color: black; 
-    font-family: 'Noto Sans KR', sans-serif;
+.text {
+    background-color: #fff;
+    padding: 5px 8px; 
+    border-radius: 5px;
+    display: inline-block; 
 }
 
-.card-info {
-    font-size: 16px;
-    margin-bottom: 10px; 
-    font-family: 'Noto Sans KR', sans-serif;
-}
-
-
-.card-info:nth-child(odd) {
-    color: rgb(0, 102, 245);
-    font-weight: bold;
-}
-
-
-.card-info:nth-child(even) {
-    color: black;
-    font-weight: bold;
-}
 

@@ -1,22 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>{{ question_name }} - {{ username }} - {{ submission.start_time.strftime('%m/%d') }}</title>
-</head>
-<body>
-  <div>
-    <p>이름: {{ username }}</p>
-    <p>시작 시간: {{ submission.start_time.strftime('%Y/%m/%d %H:%M:%S') }}</p>
-    <p>제출 시간: {{ submission.submission_time.strftime('%Y/%m/%d %H:%M:%S') }}</p>
-    <p>소요 시간: {{ time_taken[0] }}분 {{ time_taken[1] }}초</p>
-    <P>사용한 언어: {{ submission.language}}</P>
-    <P>내가 작성한 코드: {{ submission.code_content}}</P>
-    <P>컴파일 결과: {{ submission.compile_result}}</P>
-    <P>다수의 얼굴 감지: {{ submission.face_many}}</P>
-    <P>얼굴 변경 감지: {{ submission.face_change}}</P>
-    <P>자리 비움: {{ submission.face_empty}}</P>
-    <P>고개 회전: {{ submission.head_rotation}}</P>
 
+<html>
+  <head>
+    <meta charset="uft-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title>face pse main page</title>
+
+    <!--- cutom css line -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/submission.css') }}">
+
+    <!--- box icons link -->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!--- google fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+</head>
+
+<header>
+    
+  <ul class="navlist">
+    <a href="{{ url_for('home') if current_user.is_authenticated else url_for('home') }}" class="logo">FACE PSE</a>
+        
+    <li class="logout">
+      <span style="pointer-events: none; font-weight: bold;">안녕하세요, {{ current_user.username }}님!😊</span>
+      <a href="/logout">LOGOUT</a>
+  </li>
+  
+  </ul>
+
+</header>
+    <title>{{ question_name }} - {{ username }} - {{ submission.start_time.strftime('%m/%d') }}</title>
+
+    <body>
+      <div class="container">
+        <div class="wrapper">
+            <div class="content-box">
+              <body>
+                <div>
+                  <p class="username">이름: {{ username }}</p>
+                  <p class="start-time">시작 시간: {{ submission.start_time.strftime('%Y/%m/%d %H:%M:%S') }}</p>
+                  <p class="submission-time">제출 시간: {{ submission.submission_time.strftime('%Y/%m/%d %H:%M:%S') }}</p>
+                  <p class="time-taken">소요 시간: {{ time_taken[0] }}분 {{ time_taken[1] }}초</p>
+                  <p class="language">사용한 언어: {{ submission.language}}</p>
+                  
+                  <p class="text">내가 작성한 코드 ⌨️</p>
+                  <div class="code-box">
+                    <p class="code-content">{{ submission.code_content}}</p>
+                  </div>
+                  <p class="text">컴파일 결과 📝 </p>
+                  <div class="compile-box">
+                    <p class="compile-result">{{ submission.compile_result}}</p>
+                  </div>
+                  <p class="text">트래킹 결과 📷</p>
+                  <div class="face-info-box">
+                    <p class="face-many">다수의 얼굴 감지: {{ submission.face_many}}</p>
+                    <p class="face-change">얼굴 변경 감지: {{ submission.face_change}}</p>
+                    <p class="face-empty">자리 비움: {{ submission.face_empty}}</p>
+                    <p class="head-rotation">고개 회전: {{ submission.head_rotation}}</p>
+                  </div>
+                </div>
+              </body>
+        
+              
+      </div>
+    </div>
   </div>
-</body>
-</html>
+    </body>
+    </html>
+    
