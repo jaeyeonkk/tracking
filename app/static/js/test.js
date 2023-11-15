@@ -74,19 +74,19 @@ function checkFaceCount() {
   .then(data => {
     console.log(data);
     if (data.face_count > 1) {
-      alert('얼굴 많아!');
+      alert('다수의 얼굴이 감지되었습니다.');
       alertCounts.faceMany++;
     }
     if (data.no_face_for >= 5) {
-      alert('어디갔어!');
+      alert('사용자의 얼굴이 감지되지 않습니다.');
       alertCounts.faceEmpty++;
     }
     if (data.face_changed) {
-      alert('사람이 변했어!');
+      alert('사용자의 얼굴 변경이 감지되었습니다.');
       alertCounts.faceChange++;
     }
     if (data.head_rotation_alert) {
-      alert('고개가 회전되었습니다!');
+      alert('사용자의 고개가 회전이 감지되었습니다.');
       alertCounts.headRotation++;
     }
     
