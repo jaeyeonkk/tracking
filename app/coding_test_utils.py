@@ -129,10 +129,12 @@ def submit():
     result = grade_code(output_str, expected_output)
 
     # 채점 결과를 세션에 저장
-    if result == "정답입니다!":
+    if result == "정답입니다!😊":
         session["is_correct"] = True
     else:
         session["is_correct"] = False
+
+    print(session["is_correct"])
 
     # JavaScript에서 전송된 추가 데이터를 받음
     face_many = request.form.get("face_many", 0, type=int)
@@ -170,36 +172,3 @@ def submit():
     conn.close()
 
     return result  # 채점 결과를 반환
-
-
-# @coding_test.route("/save_code", methods=["POST"])
-# @csrf.exempt
-# def code_save():
-#     try:
-#         db_session = get_db_connection()
-
-#         q_id = request.form.get("q_id")
-#         user_id = request.form.get("user_id")
-#         code_content = request.form.get("code_content")
-#         language = request.form.get("language")
-#         compile_result = request.form.get("compile_result")
-#         is_correct = session.pop("is_correct", None)
-
-#         # 데이터베이스에 저장
-#         new_submission = CodeSubmission(
-#             q_id=q_id,
-#             user_id=user_id,
-#             code_content=code_content,
-#             language=language,
-#             compile_result=compile_result,
-#             is_correct=is_correct,
-#         )
-
-#         db_session.add(new_submission)
-#         db_session.commit()
-#         db_session.close()
-
-#         return jsonify({"message": "Code saved successfully!"})
-
-#     except Exception as e:
-#         return jsonify({"error": str(e)})
