@@ -134,6 +134,8 @@ def submit():
     else:
         session["is_correct"] = False
 
+    print(session["is_correct"])
+
     # JavaScript에서 전송된 추가 데이터를 받음
     face_many = request.form.get("face_many", 0, type=int)
     face_empty = request.form.get("face_empty", 0, type=int)
@@ -169,5 +171,9 @@ def submit():
     conn.commit()
     conn.close()
 
+<<<<<<< HEAD
     return result  # 채점 결과를 반환
 
+=======
+    return result  # 채점 결과를 반환
+>>>>>>> f3086e105d91f2df5b70c7a240582763815b05bd

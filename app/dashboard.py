@@ -54,7 +54,8 @@ def dashboard_detail(q_id):
 
     submissions = (conn.query(FaceSubmissions, FaceUser.username)
                    .join(FaceUser, FaceSubmissions.user_id == FaceUser.id)
-                   .filter(FaceSubmissions.q_id == q_id).all())
+                   .filter(FaceSubmissions.q_id == q_id)
+                   .order_by(FaceSubmissions.start_time).all())
     
     # 각 제출에 대해 소요 시간(분과 초) 계산
     for i in range(len(submissions)):
